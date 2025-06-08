@@ -1,15 +1,28 @@
 
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
 :root {
-  --FONT-FAMILY: 'News Cycle', sans-serif;
+  --FONT-FAMILY: "Great Vibes", cursive;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: black;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body{
+  font-family: var(--FONT-FAMILY);
+}
+
+@media screen and (min-width: 640px) {
+  body {
+    overflow-x: hidden;
+    height: 100dvh;
+  }
+  
 }
