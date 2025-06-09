@@ -41,7 +41,7 @@ function App() {
             Happy Birthday Steph! 🎉 💖 
           </motion.h1>
 
-          <button onClick={handleEnterApp} className='mt-6 px-6 py-2 md:text-2xl font- border-2 rounded-4xl shadow-lg hover:bg-white hover:text-black hover:animate-pulse hover:duration-300 ease-in-out'>
+          <button onClick={handleEnterApp} className='mt-6 px-6 py-2 md:text-2xl font-display border-2 rounded-4xl shadow-lg hover:bg-white hover:text-black hover:animate-pulse hover:duration-300 ease-in-out'>
             🎧 Enter Muse Player
           </button>
     </div>

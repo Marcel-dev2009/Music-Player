@@ -32,9 +32,6 @@ body{
   }
 }
 
-@theme {
-  --font-display: "Oswald", "sans-serif"; 
-}
 
 .Person{
   border-radius: 50%;
