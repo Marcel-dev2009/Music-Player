@@ -20,16 +20,18 @@ body{
   font-family: var(--FONT-FAMILY);
     background-color: black;
 }
-[data-theme="dark"] {
-  background-color: #121212;
-  color: rgba(255, 255, 255, 0.87);
-}
+
 [data-theme="light"] {
-  background-color: rgb(92, 83, 83);
+  background-color: rgb(177, 197, 219);
   color: rgba(0, 0, 0, 0.87);
   .name{
     color: black;
   }
+}
+
+[data-theme="dark"] {
+  background-color: #121212;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 
@@ -68,7 +70,7 @@ body{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #302a2a;
+  background-color: #d4c1c1;
   -webkit-transition: .4s;
   transition: .4s;
 }
