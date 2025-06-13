@@ -2,7 +2,8 @@ import { Routes,Route } from 'react-router-dom';
 import Entrance from './Entrance';
 import MusicApp from './MusicApp';
 import Redirect from './Redirect';
-/* import AuthApp from './AuthPage'; */
+import AuthApp from './AuthPage';
+import SignIn from './signIn';
 function App() {
 
  
@@ -11,7 +12,8 @@ function App() {
  <Routes>
   <Route path='/' element={<Redirect/>} />
     <Route path='/intro' element={<Entrance/>}/>
-    {/* <Route path='/auth' element={<AuthApp/>}/> */}
+  <Route path='/sign' element={<SignIn />} />
+     <Route path='/auth' element={<AuthApp/>}/> 
     <Route path='/Main' element={<MusicApp/>}/>
  </Routes>
  </>
