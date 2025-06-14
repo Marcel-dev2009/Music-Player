@@ -9,7 +9,7 @@ const Redirect = () => {
     if (hasVisited){
       navigate('/auth')
     } else{
-      localStorage.setItem(JSON.stringify(hasVisited), 'true')
+      localStorage.setItem('hasVisited', 'true')
       navigate('/intro')
     }
   }, [navigate]);

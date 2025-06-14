@@ -16,7 +16,7 @@ const SignIn = () => {
       email,
       password
     );
-    navigate('/Main')
+    navigate('/profile-setup')
   } catch (err: unknown) {
     if (err instanceof Error) {
       setError(err.message);

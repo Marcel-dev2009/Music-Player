@@ -4,6 +4,7 @@ import MusicApp from './MusicApp';
 import Redirect from './Redirect';
 import AuthApp from './AuthPage';
 import SignIn from './signIn';
+import ProfileApp from './ProfileApp';
 function App() {
 
  
@@ -12,8 +13,9 @@ function App() {
  <Routes>
   <Route path='/' element={<Redirect/>} />
     <Route path='/intro' element={<Entrance/>}/>
-  <Route path='/sign' element={<SignIn />} />
      <Route path='/auth' element={<AuthApp/>}/> 
+    <Route path='/sign' element={<SignIn />}/>
+    <Route path='/profile-setup' element={<ProfileApp/>}></Route>
     <Route path='/Main' element={<MusicApp/>}/>
  </Routes>
  </>

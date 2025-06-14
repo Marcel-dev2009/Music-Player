@@ -28,6 +28,7 @@ const AuthPage = () => {
       email,
      password
     );
+    
     const user = userCredential.user;
     await setDoc(doc(db , 'users', user.uid), {
       name : displayName,
@@ -35,6 +36,7 @@ const AuthPage = () => {
       createdAt : serverTimestamp(),
     });
     console.log('User Created and saved to firestore');
+    navigate('/profile-setup');
   } catch (err: unknown) {
     console.error(err);
     if (err instanceof Error) {

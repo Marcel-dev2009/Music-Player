@@ -57,7 +57,7 @@ const ArtistGrid = () =>{
   }, []);
    return(
     <>
-     <div className="min-h-screen bg-black flex items-center justify-center p-8" data-aos='fade-up'>
+     <div className="min-h-screen bg-black flex items-center justify-center p-8" data-aos='fade-up                                              '>
        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {artist.map((artist,index) => (
             <div
