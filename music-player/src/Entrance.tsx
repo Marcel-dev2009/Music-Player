@@ -5,11 +5,14 @@ import { useNavigate } from 'react-router-dom';
  import ArtistGrid from './ArtistGrid';
 /*  import Logo from './logo'; */
 import logo from './assets/logo.png';
+   
+
 function Entrance() {
    const navigate = useNavigate();
  const handleEnterApp = () => {
     navigate('/auth');
   }
+  
    return(
     <>
        <div className=' m-5 flex justify-between items-center'>
@@ -32,17 +35,18 @@ function Entrance() {
       </motion.h1>
            <div className='flex flex-col'>
           <ArtistGrid/>
-       <motion.button
+           </div>
+           <div className='lg:-translate-y-16 position lg:translate-x-1/3'>
+                  <motion.button
         initial={{opacity:0, y:40}}
         animate={{opacity:1, y:2}}
         transition={{duration:0.5, ease:'easeInOut'}}
         whileTap={{scale:0.95}}
         onClick={handleEnterApp}
         className='
-        px-6 py-3 bg-gray-800 text-white rounded-xl text-lg font-semibold shadow-md hover:bg-blue-700 transition duration-300 w-96  margin mb-3
-        '
-        >
-             Launch App
+        px-6 py-3 bg-gray-800 text-white rounded-xl text-lg font-semibold shadow-md hover:bg-blue-700 transition duration-300 w-54  margin mb-3
+       lg:w-96'
+        >     Launch App
         </motion.button> 
            </div>
     </>

@@ -37,16 +37,27 @@ body{
 }
 
 .heading{
-  font-size: 2rem;
-}
-@media screen and (min-width: 640px) {
-  body {
-    overflow-x: hidden;
-    height: 100dvh;
-  }
-  
+  font-size: 1.2rem;
 }
 
+@media screen and (min-width: 640px) {
+ /*  body {
+    overflow-x: hidden;
+    height: 100dvh;
+  } */
+  .heading{
+    font-size: 2rem;
+  }
+}
+.position{
+   transform: translateX(-26rem);
+   /* overflow-x: hidden; */
+}
+@media screen and (min-width: 64rem) {
+  .position{
+    overflow-x: hidden;
+  }
+}
 .switch {
   position: relative;
   display: inline-block;

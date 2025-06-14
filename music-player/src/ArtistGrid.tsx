@@ -1,4 +1,6 @@
-  
+  import { useEffect } from 'react';
+   import AOS from 'aos';
+    import 'aos/dist/aos.css';
 const artist = [
   {
     name : 'Ice-spice',
@@ -50,9 +52,12 @@ const artist = [
   },
 ]
 const ArtistGrid = () =>{
+   useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
    return(
     <>
-     <div className="min-h-screen bg-black flex items-center justify-center p-8">
+     <div className="min-h-screen bg-black flex items-center justify-center p-8" data-aos='fade-up'>
        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {artist.map((artist,index) => (
             <div
@@ -61,7 +66,7 @@ const ArtistGrid = () =>{
             >
                <img src={artist.image} alt={artist.name}
                className="h-24 w-24 object-contain rounded-full mx-auto mb-2"
-                />
+                 />
             </div>
           ))}
        </div>
