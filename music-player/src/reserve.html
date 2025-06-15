@@ -1,0 +1,70 @@
+nst handleSave = () => {
+    if(selectedArtist.length !== 3 || !genre || !profilePic){
+      alert('Please complete your profile (3 artists, a genre , and picture).');
+      return;
+    }
+     localStorage.setItem('userProfile' , JSON.stringify({
+    artist : selectedArtist,
+    genre,
+    profilePic,
+  }));
+
+  navigate('/Main')
+  }
+ return(
+  <>
+  <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-4">
+   <motion.h1
+   className="text-3xl font-bold mb-4"
+   initial={{y : -20, opacity:0}}
+   animate={{y: 0 , opacity : 1}}
+   >
+     Complete Profile
+   </motion.h1>
+    {/* upload picture */}
+    <div className="mb-6 text-center">
+      <label 
+      className="block mb-2 text-sm"
+      >Upload Profile Picture</label>
+      <input type="file"
+       accept="image/*"
+       onChange={handleImageUpload}
+       className="mx-5"
+       />
+       {profilePic && (
+        <img src={profilePic} alt="Preview" className="w-24 h-24 rounded-full mt-3 " />
+       )}
+    </div> {/* 1st container end */}
+    {/* selectedArtist */}
+    <div className="mb-6 text-center">
+     <p className="mb-2 text-sm">Pick Your Top 3 Artists</p>
+     <div className="flex gap-4 flex-wrap justify-center">
+      {artist.map((artist) => (
+        <div 
+        key={artist.name}
+        className={`rounded-lg overflow-hidden border-4 cursor-pointer transition ${selectedArtist.includes(artist.name) 
+          ? "border-green-500" : "border-gray-700"}`}
+          onClick={() => handleArtistClick(artist.name)}
+        >
+       <img src={artist.image} alt={artist.name} className="w-24 h-24 object-cover"/>
+       <p className="text-xs text-centre mt-1">{artist.name}</p>
+        </div>
+      ))}
+     </div>
+    </div> {/* 2nd container end */}
+   {/*  select genre */}
+   <div className="mb-6 text-center">
+    
+   
+   </div> {/* 3rd  container end */}
+ {/*  save button */}
+    <motion.button
+    whileTap={{scale: 0.95}}
+    onClick={handleSave}
+    className="bg-green-600 px-6 py-2 rounded-lg font-semibold"
+    >
+     Enter App
+    </motion.button>
+  </div> {/* Main container end */}
+  </>
+ )

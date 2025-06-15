@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-const artist = [
+import { SwitchCamera } from 'lucide-react';
+const artists = [
   {
     name : 'Ice-spice',
     image: "../public/images/ice.jpeg"
@@ -93,107 +93,130 @@ const genres = [
 
 
 export default function ProfileApp (){
-  const [selectedArtist , setSelectedArtists] = useState<string[]>([]);
-  const [genre, setgenre] = useState('');
+  const [artist , setArtists] = useState<string[]>([]);
+  const [genre, setgenre] = useState<string[]>([]);
   const [profilePic , setProfilepic] = useState<string | null>(null);
+  const [ username , setUsername ] = useState('')
   const navigate =  useNavigate()
 
-  const handleArtistClick = (name: string) => {
-    setSelectedArtists((prev) => {
-      if (prev.includes(name)) {
-        return prev.filter((a) => a !== name);
-      } else if(prev.length < 3){
-        return [...prev, name];
-      }  
-      return prev;
-    });
-  };
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file){
-      const reader = new FileReader();
-      reader.onloadend = () => setProfilepic(reader.result as string);
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSave = () => {
-    if(selectedArtist.length !== 3 || !genre || !profilePic){
-      alert('Please complete your profile (3 artists, a genre , and picture).');
-      return;
-    }
-     localStorage.setItem('userProfile' , JSON.stringify({
-    artist : selectedArtist,
-    genre,
-    profilePic,
-  }));
-
-  navigate('/Main')
+   
+ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files && e.target.files[0];
+  if(file){
+    const imageUrl = URL.createObjectURL(file);
+    setProfilepic(imageUrl);
   }
+ } 
+ const toggleArtist = (artistName: string) => {
+    setArtists((prev) => {
+      if(prev.includes(artistName)) {
+        return prev.filter((name) => name !== artistName);
+      } else if (prev.length < 3 ){
+        return [...prev , artistName];
+      } else {
+         return prev
+      }
+    })
+ };
+ const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+   const options = Array.from(e.target.selectedOptions as HTMLCollectionOf<HTMLOptionElement>, (option: HTMLOptionElement) => option.value);
+   setgenre(options);
+ }
+ const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if(!username || genre || artist.length !== 3 ){
+      alert('Please Complete all fields including selecting 3 artists');
+      return
+    }
+    localStorage.setItem('userProfile' , JSON.stringify(
+      {
+        username,
+        profilePic,
+        artist,
+        genre
+      }
+    ));
+    alert('Profile created sucessfully!');
+    navigate('/Main')
+ }
  return(
-  <>
-  <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-4">
-   <motion.h1
-   className="text-3xl font-bold mb-4"
-   initial={{y : -20, opacity:0}}
-   animate={{y: 0 , opacity : 1}}
-   >
-     Complete Profile
-   </motion.h1>
-    {/* upload picture */}
-    <div className="mb-6 text-center">
-      <label 
-      className="block mb-2 text-sm"
-      >Upload Profile Picture</label>
-      <input type="file"
+   <>
+   <form onSubmit={handleSubmit} className="
+   p-4 
+   max-w-lg
+   mx-auto
+   space-y-4
+   ">
+     <h2 className="text-2xl font-bold">Complete Your Profile</h2>
+     <div>
+     <label className="block text-sm font-medium">Username</label>
+     <input type="text"
+      value={username}
+      onChange={(e) => {
+        setUsername(e.target.value)
+
+      }} className="w-full p-2 border rounded "  required />
+     </div>  {/* 1st container end */}
+     <div>
+       <label className="block mb-1"> Profile Picture</label>
+       <div className="relative w-24 h-24 rounded-full overflow-hidden border">
+         {profilePic ? (
+          <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
+         ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-500">
+           <SwitchCamera/>
+          </div>
+         )}
+       </div>
+       <input type="file"
        accept="image/*"
        onChange={handleImageUpload}
-       className="mx-5"
-       />
-       {profilePic && (
-        <img src={profilePic} alt="Preview" className="w-24 h-24 rounded-full mt-3 " />
-       )}
-    </div> {/* 1st container end */}
-    {/* selectedArtist */}
-    <div className="mb-6 text-center">
-     <p className="mb-2 text-sm">Pick Your Top 3 Artists</p>
-     <div className="flex gap-4 flex-wrap justify-center">
-      {artist.map((artist) => (
-        <div 
-        key={artist.name}
-        className={`rounded-lg overflow-hidden border-4 cursor-pointer transition ${selectedArtist.includes(artist.name) 
-          ? "border-green-500" : "border-gray-700"}`}
-          onClick={() => handleArtistClick(artist.name)}
-        >
-       <img src={artist.image} alt={artist.name} className="w-24 h-24 object-cover"/>
-       <p className="text-xs text-centre mt-1">{artist.name}</p>
-        </div>
-      ))}
-     </div>
-    </div> {/* 2nd container end */}
-   {/*  select genre */}
-   <div className="mb-6 text-center">
-    <label className="block mb-2 text-sm">Select Your favourite genre</label>
-    <select value={genre} onChange={(e) =>{
-      setgenre(e.target.value)
-    }} className="bg-black border border-gray-600 px-4 py-2 rounded text-white ">
-      <option value="">-- Select Genre --</option>
-      {genres.map((g) => (
-        <option key={g} value={g}>{g}</option>
-      ))}
-    </select>
-   
-   
-   </div> {/* 3rd  container end */}
- {/*  save button */}
-    <motion.button
-    whileTap={{scale: 0.95}}
-    onClick={handleSave}
-    className="bg-green-600 px-6 py-2 rounded-lg font-semibold"
-    >
-     Enter App
-    </motion.button>
-  </div> {/* Main container end */}
-  </>
+       className="mt-2"
+        />
+     </div> {/* 2nd container end */}
+     <div>
+      <p className="mb-1 font-semibold">Select Top 3 Artist</p>
+      <div className="grid grid-cols-3 gap-2">
+          {artists.map((a) => (
+            <div
+            key={a.name}
+            onClick={() => toggleArtist(a.name)}
+            className={`cursor-pointer border-2 rounded p-1 ${
+              artist.includes(a.name) ? 'border-blue-600' : 'border-transparent'
+             }`}
+             >
+             <img src={a.image} alt={a.name} className="rounded"/>
+             <p className="text-center text-sm mt-1">{a.name}</p>
+            </div>
+          ))}
+      </div>
+     </div>{/*  3rd div end */}
+     <div>
+          <p className="mb-1 font-semibold"> Favourite genre</p>
+          <div className="flex flex-wrap gap-3">
+            {genres.map((genre) => (
+              <label 
+              key={genre}
+              className="flex items-center gap-2"
+              >
+                <input type="radio"
+                name={genre}
+                value={genre}
+                checked={genre.includes(genre)}
+                onChange={() => setgenre([genre])}
+                 />
+                 {genre}
+              </label>
+            ))}
+          </div>
+     </div> {/* 4th div */}
+     <button
+      type="submit"
+      className="bg-gray-700 hover:bg-blue-700 w-24 text-white py-2 px-4 rounded w-full mt-4"
+     >
+      Save Profile
+     </button>
+   </form>
+   </>
  )
 }  /* function end */
