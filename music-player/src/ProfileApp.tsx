@@ -175,7 +175,7 @@ export default function ProfileApp (){
         />
      </div> {/* 2nd container end */}
      <div>
-      <p className="mb-1 font-semibold">Select Top 3 Artist</p>
+      <p className="mb-1 font-semibold">Select Your Top 3 Artist</p>
       <div className="grid grid-cols-3 gap-2">
           {artists.map((a) => (
             <div
