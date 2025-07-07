@@ -1,6 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SwitchCamera } from 'lucide-react';
+import { db } from '../src/firebase'
+import {auth} from '../src/firebase'
+import {storage} from '../src/firebase'
+import { getDownloadURL, ref } from "firebase/storage";
+import { setDoc, doc } from "firebase/firestore";
 const artists = [
   {
     name : 'Ice-spice',
@@ -107,6 +112,7 @@ export default function ProfileApp (){
     setProfilepic(imageUrl);
   }
  } 
+
  const toggleArtist = (artistName: string) => {
     setArtists((prev) => {
       if(prev.includes(artistName)) {
@@ -118,27 +124,40 @@ export default function ProfileApp (){
       }
     })
  };
- const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-   const options = Array.from(e.target.selectedOptions as HTMLCollectionOf<HTMLOptionElement>, (option: HTMLOptionElement) => option.value);
-   setgenre(options);
- }
- const handleSubmit = (e: React.FormEvent) => {
+
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if(!username || genre || artist.length !== 3 ){
-      alert('Please Complete all fields including selecting 3 artists');
-      return
-    }
-    localStorage.setItem('userProfile' , JSON.stringify(
-      {
-        username,
-        profilePic,
-        artist,
-        genre
+    try{
+      const user = auth.currentUser;
+      if(!user) throw new Error('No User is Signed In. ');
+      let profilePicUrl = '';
+
+      if(profilePic){
+        const imageRef = ref(storage, `profilePics/${user.uid}` );
+        profilePicUrl = await getDownloadURL(imageRef);
+        
       }
-    ));
-    alert('Profile created sucessfully!');
-    navigate('/Main')
- }
+
+      const userDocRef = doc(db , 'users' , user.uid);
+      await setDoc(userDocRef, {
+        uid : user.uid,
+        profilePic : profilePicUrl,
+        name : username,
+        genre : genre,
+        topArtists : [artist]
+      });
+      alert(`Profile Created and saved sucessfully`)
+      navigate('/Main')
+    }
+    catch (error){
+     if (error instanceof Error) {
+       console.error('Error saving profile', error.message);
+     } else {
+       console.error('Error saving profile', error);
+     }
+    }
+ }  /* main function end */
+
  return(
    <>
    <form onSubmit={handleSubmit} className="
@@ -192,7 +211,9 @@ export default function ProfileApp (){
       </div>
      </div>{/*  3rd div end */}
      <div>
-          <p className="mb-1 font-semibold"> Favourite genre</p>
+          <p className="mb-1 font-semibold"> Favourite genre
+            <pre><b className="font-bold" >NOTE</b> You cannot deselect a chosen genre</pre>
+          </p>
           <div className="flex flex-wrap gap-3">
             {genres.map((genre) => (
               <label 
@@ -202,7 +223,7 @@ export default function ProfileApp (){
                 <input type="radio"
                 name={genre}
                 value={genre}
-                checked={genre.includes(genre)}
+     /*            checked={genre.includes(genre)} */
                 onChange={() => setgenre([genre])}
                  />
                  {genre}
@@ -212,11 +233,14 @@ export default function ProfileApp (){
      </div> {/* 4th div */}
      <button
       type="submit"
-      className="bg-gray-700 hover:bg-blue-700 w-24 text-white py-2 px-4 rounded w-full mt-4"
+      className="bg-gray-700 hover:bg-blue-700  text-white py-2 px-4 rounded w-full mt-4"
+      onClick={handleSubmit}
      >
       Save Profile
      </button>
    </form>
    </>
+  
  )
 }  /* function end */
+
