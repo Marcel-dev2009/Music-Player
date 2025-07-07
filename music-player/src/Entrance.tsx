@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 /*  import Themetoggle from './Themetoggle'; */
  import ArtistGrid from './ArtistGrid';
 /*  import Logo from './logo'; */
-import logo from './assets/logo.png';
-   
+
+   import logo from '/Static-assets/logo.png';
 
 function Entrance() {
    const navigate = useNavigate();
