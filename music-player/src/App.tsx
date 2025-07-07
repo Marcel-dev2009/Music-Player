@@ -11,7 +11,7 @@ function App() {
   return (
  <>
  <Routes>
-  <Route path='/' element={<Redirect/>} />
+     <Route path='/' element={<Redirect/>} />
     <Route path='/intro' element={<Entrance/>}/>
      <Route path='/auth' element={<AuthApp/>}/> 
     <Route path='/sign' element={<SignIn />}/>

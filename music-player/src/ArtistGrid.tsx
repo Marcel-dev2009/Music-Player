@@ -1,55 +1,69 @@
   import { useEffect } from 'react';
-   import AOS from 'aos';
-    import 'aos/dist/aos.css';
+ import AOS from 'aos';
+  import 'aos/dist/aos.css';
+
+    import iceSpice from './assets/images/ice.jpeg';
+    import davido from './assets/images/davido.jpeg';
+    import whitneyHouston from './assets/images/Whitney Houston.jpeg';
+    import drake from './assets/images/drake.jpeg'; 
+    import michaelJackson from './assets/images/mj.jpeg';
+    import dave from './assets/images/santandave.jpeg';
+    import lilWayne from './assets/images/lil.jpeg';
+    import centralCee from './assets/images/cench.jpeg';
+    import rema from 'src/assets/images/rema.jpeg'; 
+    import justinBieber from './assets/images/justin.jpeg';
+    import wizkid from './assets/images/Wizkid.jpeg';
+    import nemmz from './assets/images/nemzzz.jpeg';
+
 const artist = [
   {
     name : 'Ice-spice',
-    image: "./assets/images/ice.jpeg"
+    image: iceSpice
   },
-  /* {
+  {
      name : 'Davido',
-    image: "../public/images/davido.jpeg"
+    image: davido
   },
   {
      name : 'Withney',
-    image: "../public/images/Whitney Houston.jpeg"
+    image:  whitneyHouston
   },
   {
      name : 'Drake',
-    image: "../public/images/drake.jpeg"
+    image:  drake
   },
   {
      name : 'Micheal Jackson',
-    image: "../public/images/mj.jpeg"
+    image: michaelJackson
   },
   {
      name : 'Dave',
-    image: "../public/images/santandave.jpeg"
+    image: dave
   },
   {
      name : 'Lil wayne',
-    image: "../public/images/lil.jpeg"
+    image: lilWayne
   },
   {
      name : 'Central Cee',
-    image: "../public/images/ᴄᴇɴᴄʜ.jpeg"
+    image: centralCee
   },
   {
      name : 'Rema',
-    image: "../public/images/Rema.jpeg"
+    image: rema
   },
   {
      name : 'Justin Bieber',
-    image: "../public/images/download (10).jpeg"
+    image: justinBieber
   },
   {
      name : 'Wizkid',
-    image: "../public/images/Wizkid.jpeg"
+    image: wizkid
   },
   {
      name : 'Nemmz',
-    image: "../public/images/nemzzz_.jpeg"
-  }, */
+    image: nemmz
+  },
 ]
 const ArtistGrid = () =>{
    useEffect(() => {
@@ -57,7 +71,8 @@ const ArtistGrid = () =>{
   }, []);
    return(
     <>
-     <div className="min-h-screen bg-black flex items-center justify-center p-8" data-aos='fade-up                                              '>
+
+     <div className="min-h-screen bg-black flex items-center justify-center p-8" data-aos='fade-up'>
        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {artist.map((artist,index) => (
             <div
@@ -71,6 +86,7 @@ const ArtistGrid = () =>{
           ))}
        </div>
      </div> {/*  container end  */}
+
     </>
    )
 }
