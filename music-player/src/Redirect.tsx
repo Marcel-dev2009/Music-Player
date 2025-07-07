@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+/* import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -16,4 +16,4 @@ const Redirect = () => {
   return null
 };
 
-export default Redirect
+export default Redirect */
