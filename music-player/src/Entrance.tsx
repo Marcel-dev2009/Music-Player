@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 /*  import Themetoggle from './Themetoggle'; */
  import ArtistGrid from './ArtistGrid';
-/*  import Logo from './logo'; */
+ import Logo from './logo';
 
    import logo from '/Static-assets/logo.png';
 
@@ -20,7 +20,7 @@ function Entrance() {
       {/*    <Themetoggle/> */}
        </div>
       <span>
-          {/*  <Logo/> */}
+            <Logo/> 
       </span>
       
       <motion.h1
