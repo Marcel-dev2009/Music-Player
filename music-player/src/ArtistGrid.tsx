@@ -10,7 +10,7 @@
     import dave from './assets/images/santandave.jpeg';
     import lilWayne from './assets/images/lil.jpeg';
     import centralCee from './assets/images/cench.jpeg';
-    import rema from 'src/assets/images/rema.jpeg'; 
+    import rema from './assets/images/rema.jpeg'; 
     import justinBieber from './assets/images/justin.jpeg';
     import wizkid from './assets/images/Wizkid.jpeg';
     import nemmz from './assets/images/nemzzz.jpeg';
