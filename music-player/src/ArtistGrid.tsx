@@ -4,7 +4,7 @@
 const artist = [
   {
     name : 'Ice-spice',
-    image: "../public/images/ice.jpeg"
+    image: "./assets/images/ice.jpeg"
   },
   {
      name : 'Davido',
