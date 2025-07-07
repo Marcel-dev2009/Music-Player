@@ -6,7 +6,7 @@ const artist = [
     name : 'Ice-spice',
     image: "./assets/images/ice.jpeg"
   },
-  {
+  /* {
      name : 'Davido',
     image: "../public/images/davido.jpeg"
   },
@@ -49,7 +49,7 @@ const artist = [
   {
      name : 'Nemmz',
     image: "../public/images/nemzzz_.jpeg"
-  },
+  }, */
 ]
 const ArtistGrid = () =>{
    useEffect(() => {
