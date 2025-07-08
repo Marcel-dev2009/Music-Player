@@ -6,27 +6,27 @@ import {auth} from '../src/firebase'
 import {storage} from '../src/firebase'
 import { getDownloadURL, ref } from "firebase/storage";
 import { setDoc, doc } from "firebase/firestore";
- import iceSpice from './assets/images/ice.jpeg';
- import whitneyHouston from './assets/images/Whitney Houston.jpeg';
- import davido from './assets/images/davido.jpeg';
- import drake from './assets/images/drake.jpeg'; 
-  import michaelJackson from './assets/images/mj.jpeg';
- import dave from './assets/images/santandave.jpeg';
-  import lilWayne from './assets/images/lil.jpeg';
-  import rema from './assets/images/rema.jpeg'; 
-  import centralCee from './assets/images/cench.jpeg';
-   import justinBieber from './assets/images/justin.jpeg';
-   import wizkid from './assets/images/Wizkid.jpeg';
- import nemmz from './assets/images/nemzzz.jpeg';
-   import eminem from './assets/images/eminem.jpeg';
-   import anna from './assets/images/anna.jpeg';
-  import taylor from './assets/images/taylor.jpeg';
-  import ken from './assets/images/ken.jpeg';
-  import shakira from './assets/images/shakira.jpeg';
-  import lipa from './assets/images/lipa.jpeg';
-   import wrld from './assets/images/juice.png';
-  import omar from './assets/images/omar.jpeg';
-  import ney from './assets/images/ney.jpeg';  
+ import iceSpice from '@/assets/images/ice.jpeg';
+ import whitneyHouston from '@/assets/images/Whitney Houston.jpeg';
+ import davido from '@/assets/images/davido.jpeg';
+ import drake from '@/assets/images/drake.jpeg'; 
+  import michaelJackson from '@/assets/images/mj.jpeg';
+ import dave from '@/assets/images/santandave.jpeg';
+  import lilWayne from '@/assets/images/lil.jpeg';
+  import rema from '@/assets/images/rema.jpeg'; 
+  import centralCee from '@/assets/images/cench.jpeg';
+   import justinBieber from '@/assets/images/justin.jpeg';
+   import wizkid from '@/assets/images/Wizkid.jpeg';
+ import nemmz from '@/assets/images/nemzzz.jpeg';
+   import eminem from '@/assets/images/eminem.jpeg';
+   import anna from '@/assets/images/anna.jpeg';
+  import taylor from '@/assets/images/taylor.jpeg';
+  import ken from '@/assets/images/ken.jpeg';
+  import shakira from '@/assets/images/shakira.jpeg';
+  import lipa from '@/assets/images/lipa.jpeg';
+   import wrld from '@/assets/images/juice.png';
+  import omar from '@/assets/images/omar.jpeg';
+  import ney from '@/assets/images/ney.jpeg';  
 const artists = [
   {
     name : 'Ice-spice',
