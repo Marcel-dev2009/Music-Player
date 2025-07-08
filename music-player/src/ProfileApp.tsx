@@ -6,90 +6,111 @@ import {auth} from '../src/firebase'
 import {storage} from '../src/firebase'
 import { getDownloadURL, ref } from "firebase/storage";
 import { setDoc, doc } from "firebase/firestore";
+ import iceSpice from './assets/images/ice.jpeg';
+ import whitneyHouston from './assets/images/Whitney Houston.jpeg';
+ import davido from './assets/images/davido.jpeg';
+ import drake from './assets/images/drake.jpeg'; 
+  import michaelJackson from './assets/images/mj.jpeg';
+ import dave from './assets/images/santandave.jpeg';
+  import lilWayne from './assets/images/lil.jpeg';
+  import rema from './assets/images/rema.jpeg'; 
+  import centralCee from './assets/images/cench.jpeg';
+   import justinBieber from './assets/images/justin.jpeg';
+   import wizkid from './assets/images/Wizkid.jpeg';
+ import nemmz from './assets/images/nemzzz.jpeg';
+   import eminem from './assets/images/eminem.jpeg';
+   import anna from './assets/images/anna.jpeg';
+  import taylor from './assets/images/taylor.jpeg';
+  import ken from './assets/images/ken.jpeg';
+  import shakira from './assets/images/shakira.jpeg';
+  import lipa from './assets/images/lipa.jpeg';
+   import wrld from './assets/images/juice.png';
+  import omar from './assets/images/omar.jpeg';
+  import ney from './assets/images/ney.jpeg';  
 const artists = [
   {
     name : 'Ice-spice',
-    image: "../public/images/ice.jpeg"
+    image: iceSpice
   },
   {
      name : 'Davido',
-    image: "../public/images/davido.jpeg"
+    image: davido
   },
   {
      name : 'Withney',
-    image: "../public/images/Whitney Houston.jpeg"
+    image:  whitneyHouston
   },
   {
      name : 'Drake',
-    image: "../public/images/drake.jpeg"
+    image: drake
   },
   {
      name : 'Micheal Jackson',
-    image: "../public/images/mj.jpeg"
+    image: michaelJackson
   },
   {
      name : 'Dave',
-    image: "../public/images/santandave.jpeg"
+    image: dave
   },
   {
      name : 'Lil wayne',
-    image: "../public/images/lil.jpeg"
+    image: lilWayne
   },
   {
      name : 'Central Cee',
-    image: "../public/images/ᴄᴇɴᴄʜ.jpeg"
+    image:  centralCee
   },
   {
      name : 'Rema',
-    image: "../public/images/Rema.jpeg"
+    image: rema
   },
   {
      name : 'Justin Bieber',
-    image: "../public/images/download (10).jpeg"
+    image: justinBieber
   },
   {
      name : 'Wizkid',
-    image: "../public/images/Wizkid.jpeg"
+    image: wizkid
   },
   {
      name : 'Nemmz',
-    image: "../public/images/nemzzz_.jpeg"
+    image: nemmz
   },
   {
      name : 'Eminem',
-    image: "../public/images/eminem.jpeg"
+    image: eminem
   },
   {
      name : 'Rihanna',
-    image: "../public/images/✧_ ┊rihanna.jpeg"
+    image: anna
   },
   {
      name : 'Taylor Swift',
-    image: "../public/images/Taylor Swift.jpeg"
+    image: taylor
   },
   {
      name : 'Kendrick Lamer',
-    image: "../public/images/ken.jpeg"
+    image: ken
   },
   {
      name : 'Shakira',
-    image: "../public/images/SHAKIRA Allure.jpeg"
+    image: shakira
   },
   {
      name : 'Dua Lipa',
-    image: "../public/images/lipa.jpeg"
+    image: lipa
   },
   {
      name : 'Juice Wrld',
-    image: "../public/images/juice.png"
+    image: wrld
   },
   {
      name : 'Don omar',
-    image: "../public/images/omar.jpeg"
+    image: omar
   },
   {
      name : 'Neymar Jr',
-    image: "../public/images/ney.jpeg"
+    image: ney
   },
 ]
 const genres = [
