@@ -4,6 +4,7 @@ import { db } from '../src/firebase'
 import {auth} from '../src/firebase'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Logo from './logo';
 
 const AuthPage = () => {
 
@@ -54,9 +55,10 @@ return(
    
     <div className='min-h-screen flex items-center justify-center bg-[#0f0f0f] text-white'>
       <form onSubmit={handleSignUp}
-       className='space-y-4 bg-[#1a1a1a] p-8 rounded-lg shadow-lg'
+       className='space-y-4  p-8 rounded-lg shadow-lg lg:bg-[#1a1a1a]'
       >
          <h2 className='text-xl font-bold'>Sign Up</h2>
+         <Logo/>
          <input type="text" placeholder='Name' value={displayName} onChange={(e) =>{
           setDisplayName(e.target.value)
          }} className='w-full p-2 rounded bg-[#2a2a2a] border border-gray-600' required/> {/* first input end */}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../src/firebase'
 import { useNavigate } from "react-router-dom";
+import Logo from "./logo";
 const SignIn = () => {
  const navigate = useNavigate();
  const [email , setEmail] = useState('');
@@ -33,9 +34,10 @@ const SignIn = () => {
      <div className="min-h-screen flex items-center justify-center bg-[#0f0f0f] text-white">
        <form
        onSubmit={handleSignIn}
-       className="bg-[#1a1a1a] p-8 rounded-xl shadow-xl w-full max-w-md"
+       className=" p-8 rounded-xl shadow-xl w-full max-w-md lg:bg-[#1a1a1a]"
        >
         <h2 className="text-2xl font-bold mb-6">Sign In</h2>
+        <Logo/>
         <div className="mb-4">
         <label className="block text-sm mb-1">
           Email
