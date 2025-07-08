@@ -13,7 +13,6 @@ import { setDoc, doc } from "firebase/firestore";
   import michaelJackson from '@/assets/images/mj.jpeg';
  import dave from '@/assets/images/santandave.jpeg';
   import lilWayne from '@/assets/images/lil.jpeg';
-  import rema from '@/assets/images/rema.jpeg'; 
   import centralCee from '@/assets/images/cench.jpeg';
    import justinBieber from '@/assets/images/justin.jpeg';
    import wizkid from '@/assets/images/Wizkid.jpeg';
@@ -60,10 +59,7 @@ const artists = [
      name : 'Central Cee',
     image:  centralCee
   },
-  {
-     name : 'Rema',
-    image: rema
-  },
+
   {
      name : 'Justin Bieber',
     image: justinBieber
