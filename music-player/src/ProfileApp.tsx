@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { SwitchCamera } from 'lucide-react';
 import { db } from '../src/firebase'
 import {auth} from '../src/firebase'
+import { ArrowLeftRight } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import {storage} from '../src/firebase'
 import { getDownloadURL, ref } from "firebase/storage";
 import { setDoc, doc } from "firebase/firestore";
@@ -25,7 +27,7 @@ import { setDoc, doc } from "firebase/firestore";
   import lipa from '@/assets/images/lipa.jpeg';
    import wrld from '@/assets/images/juice.png';
   import omar from '@/assets/images/omar.jpeg';
-  import ney from '@/assets/images/ney.jpeg';  
+  import leo from '@/assets/images/leo.jpeg';
    import mars from '@/assets/images/mars.jpeg'
 const artists = [
   {
@@ -110,8 +112,8 @@ const artists = [
     image: omar
   },
   {
-     name : 'Neymar Jr',
-    image: ney
+     name : 'Leo Stay_trill',
+    image: leo
   },
 ]
 const genres = [
@@ -205,7 +207,9 @@ const fileInputRef = useRef<HTMLInputElement>(null);
    const triggerFileInput = () => {
     fileInputRef.current?.click();
   };
-
+  const deleteProfilePic = () => {
+    setProfilepic(null);
+    localStorage.removeItem('profilePic')};
  return(
    <>
    <form onSubmit={handleSubmit} className="
@@ -226,23 +230,39 @@ const fileInputRef = useRef<HTMLInputElement>(null);
      </div>  {/* 1st container end */}
      <div>
        <label className="block mb-1"> Profile Picture</label>
-       <div className=" w-32 h-32 rounded-full overflow-hidden border mx-46">
+        <div>
+              <div className=" w-32 h-32 rounded-full overflow-hidden border mx-22 lg:mx-46 ">
          {profilePic ? (
-          <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
+         
+            <img src={profilePic} alt="Profile" className="w-full h-full object-cover" loading="lazy"/>
+      
          ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-500">
            <button
            className="cursor-pointer"
            onClick={triggerFileInput}
            >
-             
-              <SwitchCamera/>
-              
+              <SwitchCamera/>  
            </button>
           </div>
-         )}
-       </div>
+         )};
+       </div> 
+        <div>
+            <button className="delete-button cursor-pointer"
+       title="Delete Profile Picture"
+       onClick={deleteProfilePic}
+       >
+            <Trash/>
+       </button>
+        <button className="cursor-pointer change-button "
+        title="Change Profile Picture"
+        onClick={triggerFileInput}
+        >
+           <ArrowLeftRight/>
+        </button>
+        </div> {/* Functional button end */}
 
+        </div> {/* end */}
        <input 
        ref={fileInputRef}
         type="file"
@@ -270,24 +290,21 @@ const fileInputRef = useRef<HTMLInputElement>(null);
       </div>
      </div>{/*  3rd div end */}
      <div>
-          <p className="mb-1 font-semibold"> Favourite genre
-            <pre><b className="font-bold" >NOTE</b> You cannot deselect a chosen genre</pre>
-          </p>
-          <div className="flex flex-wrap gap-3">
-            {genres.map((genre) => (
-              <label 
-              key={genre}
-              className="flex items-center gap-2"
-              >
-                <input type="radio"
-                name={genre}
+          <p className="mb-1 font-semibold"> Favourite genre </p>
+         
+          <div className="flex flex-wrap gap-3 ">
+            <select name="genre" className="bg-gray-800 text-white p-2 rounded w-full text-center font-bold">
+            <option value="" disabled selected>Select Genre</option>
+              {genres.map((genre) => (
+                <option  className="bg-black"
+                key={genre} 
                 value={genre}
-     /*            checked={genre.includes(genre)} */
-                onChange={() => setgenre([genre])}
-                 />
-                 {genre}
-              </label>
-            ))}
+                onClick={() => setgenre([genre])}
+                >
+                  {genre}
+                </option>
+              ))}
+            </select>
           </div>
      </div> {/* 4th div */}
      <button

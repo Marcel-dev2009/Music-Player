@@ -147,3 +147,35 @@ input:checked + .slider:before {
 .margin{
   margin-left: 30rem;
 }
+.delete-button{
+  position: absolute;
+  right: 35rem;
+  top: 17rem;
+  border: 1px solid gray;
+  border-top-left-radius: 10px;
+ border-bottom-right-radius: 10px;
+ background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+}
+.change-button{
+  position: absolute;
+  right: 32rem;
+  top: 17rem;
+  border: 1px solid gray;
+  border-top-left-radius: 10px;
+ border-bottom-right-radius: 10px;
+ background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+}
+@media screen and (max-width : 768px) {
+  .delete-button{
+    right: 4.5rem;
+  }
+  .change-button{
+    right : 14rem;
+     border-top-left-radius: 0px;
+   border-bottom-right-radius: 0px;
+   border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
