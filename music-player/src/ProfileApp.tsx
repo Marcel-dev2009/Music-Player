@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SwitchCamera } from 'lucide-react';
 import { db } from '../src/firebase'
@@ -26,6 +26,7 @@ import { setDoc, doc } from "firebase/firestore";
    import wrld from '@/assets/images/juice.png';
   import omar from '@/assets/images/omar.jpeg';
   import ney from '@/assets/images/ney.jpeg';  
+   import mars from '@/assets/images/mars.jpeg'
 const artists = [
   {
     name : 'Ice-spice',
@@ -85,6 +86,10 @@ const artists = [
     image: taylor
   },
   {
+     name : 'Bruno Mars',
+     image : mars
+  },
+  {
      name : 'Kendrick Lamer',
     image: ken
   },
@@ -110,7 +115,14 @@ const artists = [
   },
 ]
 const genres = [
-  'Afrobeats', 'Hip Hop' , 'R&B' , 'Amapiano' , 'Pop', 'Soul' , 'Jazz' , 'Gospel'
+  'Afrobeats',
+  'Hip Hop',
+  'R&B',
+  'Amapiano',
+  'Pop',
+  'Soul',
+  'Jazz',
+  'Gospel'
 ];
 
 
@@ -128,9 +140,23 @@ export default function ProfileApp (){
     const imageUrl = URL.createObjectURL(file);
     setProfilepic(imageUrl);
   }
- } 
+   const reader = new FileReader();
+   reader.onload = (event) => {
+    const base64String = event.target?.result as string;
+    localStorage.setItem('profilePic' , base64String);
+   }
+   if (file){
+    reader.readAsDataURL(file);
+   }
+ }
+     useEffect(() => {
+      const savedImages = localStorage.getItem('profilePic');
+      if (savedImages){
+        setProfilepic(savedImages);
+      }
+     }, []);
 
- const toggleArtist = (artistName: string) => {
+ const toggleArtist = (artistName:string) => {
     setArtists((prev) => {
       if(prev.includes(artistName)) {
         return prev.filter((name) => name !== artistName);
@@ -141,6 +167,7 @@ export default function ProfileApp (){
       }
     })
  };
+const fileInputRef = useRef<HTMLInputElement>(null);
 
  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,6 +202,10 @@ export default function ProfileApp (){
     }
  }  /* main function end */
 
+   const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
  return(
    <>
    <form onSubmit={handleSubmit} className="
@@ -195,20 +226,31 @@ export default function ProfileApp (){
      </div>  {/* 1st container end */}
      <div>
        <label className="block mb-1"> Profile Picture</label>
-       <div className="relative w-24 h-24 rounded-full overflow-hidden border">
+       <div className=" w-32 h-32 rounded-full overflow-hidden border mx-46">
          {profilePic ? (
           <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
          ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-500">
-           <SwitchCamera/>
+           <button
+           className="cursor-pointer"
+           onClick={triggerFileInput}
+           >
+             
+              <SwitchCamera/>
+              
+           </button>
           </div>
          )}
        </div>
-       <input type="file"
+
+       <input 
+       ref={fileInputRef}
+        type="file"
        accept="image/*"
        onChange={handleImageUpload}
-       className="mt-2"
-        />
+       className="mt-2 hidden "
+        /> {/*   modify */}
+
      </div> {/* 2nd container end */}
      <div>
       <p className="mb-1 font-semibold">Select Your Top 3 Artist</p>
