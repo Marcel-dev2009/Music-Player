@@ -222,6 +222,8 @@ const fileInputRef = useRef<HTMLInputElement>(null);
      <div>
      <label className="block text-sm font-medium">Username</label>
      <input type="text"
+      placeholder="Enter your username"
+      
       value={username}
       onChange={(e) => {
         setUsername(e.target.value)

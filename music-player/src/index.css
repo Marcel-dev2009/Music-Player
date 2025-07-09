@@ -172,7 +172,7 @@ input:checked + .slider:before {
     right: 4.5rem;
   }
   .change-button{
-    right : 14rem;
+    right : 17rem;
      border-top-left-radius: 0px;
    border-bottom-right-radius: 0px;
    border-top-right-radius: 10px;
