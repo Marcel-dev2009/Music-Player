@@ -8,7 +8,7 @@ const Redirect = () => {
   useEffect(() => {
      const hasVisited = localStorage.getItem('hasVisited');
      const hasAuth = localStorage.getItem('hasAuth');
-
+     const hasSetProfile = localStorage.getItem('hasSetProfile');
      if(hasVisited){
     navigate('auth');
   }else{
@@ -20,6 +20,12 @@ const Redirect = () => {
     } else {
       localStorage.setItem('hasAuth' , 'true');
       navigate('/sign');
+    } 
+    if(hasSetProfile){
+      navigate('/Main');
+    }else{
+      localStorage.setItem('hasSetProfile', 'true');
+      navigate('/profile-setup');
     }
   }, [navigate]);
    
