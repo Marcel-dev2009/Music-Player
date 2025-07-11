@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SwitchCamera } from 'lucide-react';
 import { db } from '../src/firebase'
 import {auth} from '../src/firebase'
 import { ArrowLeftRight } from 'lucide-react';
 import { Trash } from 'lucide-react';
-import {storage} from '../src/firebase'
-import { getDownloadURL, ref } from "firebase/storage";
 import { setDoc, doc } from "firebase/firestore";
  import iceSpice from '@/assets/images/ice.jpeg';
  import whitneyHouston from '@/assets/images/Whitney Houston.jpeg';
@@ -169,10 +167,17 @@ const fileInputRef = useRef<HTMLInputElement>(null);
       let profilePicUrl = '';
 
       if(profilePic){
-        const imageRef = ref(storage, `profilePics/${user.uid}` );
-        profilePicUrl = await getDownloadURL(imageRef);
+          const formData = new FormData();
+          formData.append('file', profilePic);
+          formData.append('upload_preset', 'user_profile_photos');
+          const cloudinaryResponse  = await fetch('https://api.cloudinary.com/v1_1/ dfsrso3jk/image/upload',{
+            method: 'POST',
+            body: formData,
+          });
+          const data = await cloudinaryResponse.json();
+          profilePicUrl = data.secure_url;
       }
-
+        
       const userDocRef = doc(db , 'users' , user.uid);
       await setDoc(userDocRef, {
         uid : user.uid,
@@ -181,7 +186,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
         genre : genre,
         topArtists : artist,
         createdAt: new Date().toISOString(),
-      });
+      }); 
 
       alert(`Profile Created and saved sucessfully`)
       navigate('/Main')
