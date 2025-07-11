@@ -29,6 +29,7 @@ import { setDoc, doc } from "firebase/firestore";
   import omar from '@/assets/images/omar.jpeg';
   import leo from '@/assets/images/leo.jpeg';
    import mars from '@/assets/images/mars.jpeg'
+
 const artists = [
   {
     name : 'Ice-spice',
@@ -142,21 +143,9 @@ export default function ProfileApp (){
     const imageUrl = URL.createObjectURL(file);
     setProfilepic(imageUrl);
   }
-   const reader = new FileReader();
-   reader.onload = (event) => {
-    const base64String = event.target?.result as string;
-    localStorage.setItem('profilePic' , base64String);
-   }
-   if (file){
-    reader.readAsDataURL(file);
-   }
+  
  }
-     useEffect(() => {
-      const savedImages = localStorage.getItem('profilePic');
-      if (savedImages){
-        setProfilepic(savedImages);
-      }
-     }, []);
+ 
 
  const toggleArtist = (artistName:string) => {
     setArtists((prev) => {
@@ -174,27 +163,30 @@ const fileInputRef = useRef<HTMLInputElement>(null);
  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try{
-      const user = auth.currentUser;
+     const user = auth.currentUser;
       if(!user) throw new Error('No User is Signed In. ');
+
       let profilePicUrl = '';
 
       if(profilePic){
         const imageRef = ref(storage, `profilePics/${user.uid}` );
         profilePicUrl = await getDownloadURL(imageRef);
-        
       }
 
       const userDocRef = doc(db , 'users' , user.uid);
       await setDoc(userDocRef, {
         uid : user.uid,
-        profilePic : profilePicUrl,
+       profilePic : profilePicUrl, 
         name : username,
         genre : genre,
-        topArtists : [artist]
+        topArtists : artist,
+        createdAt: new Date().toISOString(),
       });
+
       alert(`Profile Created and saved sucessfully`)
       navigate('/Main')
     }
+
     catch (error){
      if (error instanceof Error) {
        console.error('Error saving profile', error.message);
@@ -285,7 +277,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
               artist.includes(a.name) ? 'border-blue-600' : 'border-transparent'
              }`}
              >
-             <img src={a.image} alt={a.name} className="rounded"/>
+             <img src={a.image} alt={a.name} className="rounded-full"/>
              <p className="text-center text-sm mt-1">{a.name}</p>
             </div>
           ))}
@@ -296,7 +288,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
          
           <div className="flex flex-wrap gap-3 ">
             <select name="genre" className="bg-gray-800 text-white p-2 rounded w-full text-center font-bold">
-            <option value="" disabled selected>Select Genre</option>
+            <option value="" >Select Genre</option>
               {genres.map((genre) => (
                 <option  className="bg-black"
                 key={genre} 
@@ -309,9 +301,10 @@ const fileInputRef = useRef<HTMLInputElement>(null);
             </select>
           </div>
      </div> {/* 4th div */}
+
      <button
       type="submit"
-      className="bg-gray-700 hover:bg-blue-700  text-white py-2 px-4 rounded w-full mt-4"
+      className="bg-gray-700 hover:bg-blue-700  text-white py-2 px-4 rounded w-full mt-4 cursor-pointer"
       onClick={handleSubmit}
      >
       Save Profile
