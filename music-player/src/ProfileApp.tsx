@@ -115,7 +115,7 @@ const artists = [
     image: leo
   },
 ]
-const genres = [
+const genre = [
   'Afrobeats',
   'Hip Hop',
   'R&B',
@@ -129,8 +129,9 @@ const genres = [
 
 export default function ProfileApp (){
   const [artist , setArtists] = useState<string[]>([]);
-  const [genre, setgenre] = useState<string[]>([]);
-  const [profilePic , setProfilepic] = useState<string | null>(null);
+  const [genreChoice, setgenreChoice] = useState<string[]>([]);
+  const [profilePic , setProfilepic] = useState< File | null>(null);
+  const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null); 
   const [ username , setUsername ] = useState('')
   const navigate =  useNavigate()
 
@@ -138,10 +139,10 @@ export default function ProfileApp (){
  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files && e.target.files[0];
   if(file){
-    const imageUrl = URL.createObjectURL(file);
-    setProfilepic(imageUrl);
+    const imageRef = URL.createObjectURL(file);
+    setProfilePicPreview(imageRef);
+    setProfilepic(file);
   }
-  
  }
  
 
@@ -181,9 +182,9 @@ const fileInputRef = useRef<HTMLInputElement>(null);
       const userDocRef = doc(db , 'users' , user.uid);
       await setDoc(userDocRef, {
         uid : user.uid,
-       profilePic : profilePicUrl, 
+        profilePic : profilePicUrl || '', 
         name : username,
-        genre : genre,
+        genre : genreChoice,
         topArtists : artist,
         createdAt: new Date().toISOString(),
       }); 
@@ -232,12 +233,11 @@ const fileInputRef = useRef<HTMLInputElement>(null);
         <div>
               <div className=" w-32 h-32 rounded-full overflow-hidden border mx-22 lg:mx-46 ">
          {profilePic ? (
-         
-            <img src={profilePic} alt="Profile" className="w-full h-full object-cover" loading="lazy"/>
-      
+            <img src={profilePicPreview || undefined} alt="Profile" className="w-full h-full object-cover" loading="lazy"/>
          ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-500">
            <button
+           type="button"
            className="cursor-pointer"
            onClick={triggerFileInput}
            >
@@ -247,13 +247,13 @@ const fileInputRef = useRef<HTMLInputElement>(null);
          )};
        </div> 
         <div>
-            <button className="delete-button cursor-pointer"
+        <button className="delete-button cursor-pointer" type="button"
        title="Delete Profile Picture"
        onClick={deleteProfilePic}
        >
             <Trash/>
        </button>
-        <button className="cursor-pointer change-button "
+        <button className="cursor-pointer change-button " type="button"
         title="Change Profile Picture"
         onClick={triggerFileInput}
         >
@@ -292,15 +292,15 @@ const fileInputRef = useRef<HTMLInputElement>(null);
           <p className="mb-1 font-semibold"> Favourite genre </p>
          
           <div className="flex flex-wrap gap-3 ">
-            <select name="genre" className="bg-gray-800 text-white p-2 rounded w-full text-center font-bold">
+            <select name="genre" className="bg-gray-800 text-white p-2 rounded w-full text-center font-bold ">
             <option value="" >Select Genre</option>
-              {genres.map((genre) => (
+              {genre.map((g) => (
                 <option  className="bg-black"
-                key={genre} 
-                value={genre}
-                onClick={() => setgenre([genre])}
+                key={g} 
+                value={g}
+                onClick={() => setgenreChoice([g])}
                 >
-                  {genre}
+                  {g}
                 </option>
               ))}
             </select>
@@ -316,7 +316,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
      </button>
    </form>
    </>
-  
+
  )
 }  /* function end */
 
