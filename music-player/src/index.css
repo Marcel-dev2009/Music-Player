@@ -179,9 +179,7 @@ input:checked + .slider:before {
     border-bottom-left-radius: 10px;
   }
 
-.Search-input{
-   width: 25%;
-}
+
 }
 .menu{
   position: absolute;
