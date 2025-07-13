@@ -53,7 +53,7 @@ export default function MusicSidebar() {
   return (
     <div className="min-h-screen">
       {/* Fixed Sidebar */}
-      <div className={`fixed top-0 left-0 h-full  border-r border-slate-900 transition-all duration-300 ease-in-out z-40 ${
+      <div className={`fixed top-0 left-0 h-full bg-[#111] border-r border-slate-900 transition-all duration-300 ease-in-out z-40 ${
         isExpanded ? 'w-64' : 'w-16'
       } ${isVisible ? 'translate-x-0' : '-translate-x-full'}`}>
         
@@ -82,7 +82,7 @@ export default function MusicSidebar() {
             return (
               <div key={index} className="relative group">
                 <button
-                  className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-300 hover:bg-slate-700 hover:text-white ${!isExpanded ? 'justify-center' : ''}`}
+                  className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-300  hover:text-white ${!isExpanded ? 'justify-center' : ''}`}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />
                   <span className={`${
