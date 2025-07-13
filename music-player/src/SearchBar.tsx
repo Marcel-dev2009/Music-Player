@@ -31,7 +31,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
    return (
     <>
-     <div className='flex items-center'>
+     <div className='flex items-center '>
        <AnimatePresence mode='wait'>
           {!showInput ? (
             <motion.button
@@ -61,7 +61,7 @@ import { AnimatePresence, motion } from 'framer-motion';
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="flex items-center"
             >
-             <div className='relative'>
+             <div className='relative z-1000'>
                   <motion.input
                 ref={inputRef}
                 type="text"
