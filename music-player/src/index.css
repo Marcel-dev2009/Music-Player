@@ -178,4 +178,14 @@ input:checked + .slider:before {
    border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
   }
+.absolute-profile{
+    top: 33rem;
+    left: 2rem;
+   border-top: none;
+}
+}
+.menu{
+  position: absolute;
+  left: 1rem;
+  top: 2rem;
 }
