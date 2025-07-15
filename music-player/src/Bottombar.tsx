@@ -4,18 +4,21 @@ import { Home, Search, Music } from 'lucide-react';
 interface BottomBarProps {
   activeTab?: string;
   onTabChange?: (tab: string) => void;
-  theme : string;
+  onSearchTrigger?: () => void; // Add this prop
+  theme: string;
 }
 
-const BottomBar: React.FC<BottomBarProps> = ({ 
-  activeTab: propActiveTab, 
-  onTabChange ,
+const BottomBar: React.FC<BottomBarProps> = ({
+  activeTab: propActiveTab,
+  onTabChange,
+  onSearchTrigger, // Add this
   theme = 'dark'
 }) => {
   const [internalActiveTab, setInternalActiveTab] = useState('home');
   
   // Use prop if provided, otherwise use internal state
   const activeTab = propActiveTab || internalActiveTab;
+  
   const navItems = [
     {
       id: 'home',
@@ -42,10 +45,17 @@ const BottomBar: React.FC<BottomBarProps> = ({
     if (onTabChange) {
       onTabChange(tabId);
     }
+    
+    // If search tab is clicked, trigger the search bar
+    if (tabId === 'search' && onSearchTrigger) {
+      onSearchTrigger();
+    }
   };
-    const isDark = theme === 'dark';
+
+  const isDark = theme === 'dark';
+  
   return (
-    <div className={`fixed bottom-0 left-0 right-0  border-t border-gray-700 md:hidden z-50 ${isDark ? 'bg-black' : 'bg-[#f5f5f5]'}`}>
+    <div className={`fixed bottom-0 left-0 right-0 border-t border-gray-700 md:hidden z-50 ${isDark ? 'bg-black' : 'bg-[#f5f5f5]'}`}>
       <div className="flex items-center justify-around h-16 px-4">
         {navItems.map((item) => {
           const IconComponent = item.icon;

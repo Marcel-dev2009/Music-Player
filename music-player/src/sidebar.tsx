@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import logo from '/Static-assets/logo.png'
 import { 
   Home, 
-  Search, 
+  SearchCode, 
   Library, 
   Heart, 
   PlayCircle, 
@@ -39,7 +39,7 @@ export default function MusicSidebar({theme = 'dark'}) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
   const isDark = theme === 'dark';
-  const menuItems = [
+/*   const menuItems = [
     { icon: Home, label: 'Home' },
     { icon: Search, label: 'Search' },
     { icon: Library, label: 'Your Library' },
@@ -50,7 +50,7 @@ export default function MusicSidebar({theme = 'dark'}) {
     { icon: TrendingUp, label: 'Charts' },
     { icon: Settings, label: 'Settings' },
   ];
-
+ */
   return (
     <div className="min-h-screen">
       {/* Fixed Sidebar */}
@@ -94,7 +94,24 @@ export default function MusicSidebar({theme = 'dark'}) {
 
         {/* Navigation */}
         <nav className="p-4 space-y-2">
-          {menuItems.map((item, index) => {
+         <div className='relative group'>
+            <button 
+            className={`w-full flex flex-col gap-8 items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-300  hover:text-white ${!isExpanded ? 'justify-center' : ''} `}
+            >
+           
+           <Home className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <SearchCode className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <Library className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <Heart className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <PlayCircle className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <Radio className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <Mic2 className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <TrendingUp className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+          <Settings className='w-5 h-5 flex-shrink-0' color={isDark ? '#fff' : '#000'} />
+            </button>
+         </div>
+         
+         {/*  {menuItems.map((item, index) => {
             const Icon = item.icon;
             return (
               <div key={index} className="relative group">
@@ -109,17 +126,17 @@ export default function MusicSidebar({theme = 'dark'}) {
                   `}>
                     {item.label}
                   </span>
-                </button>
+                </button> */}
                 
                 {/* Tooltip for collapsed state */}
-                {!isExpanded && (
+               {/*  {!isExpanded && (
                   <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10 border border-gray-700">
                     {item.label}
                   </div>
                 )}
               </div>
             );
-          })}
+          })} */}
         </nav>
 
         {/* Bottom Section */}
