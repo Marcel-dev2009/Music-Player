@@ -17,7 +17,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
     useEffect(() => {
       const handleEscape = (e:KeyboardEvent) => {
-       if(e.key === 'Escape'){
+       if(e.key === 'Escape' || e.key === 'Enter'){
         setShowInput(false);
         setSearchValue('');
        }
@@ -69,7 +69,7 @@ import { AnimatePresence, motion } from 'framer-motion';
                 onChange={(e) => setSearchValue(e.target.value)}
                 placeholder="Search Songs , Artists , Playlists"
                 initial={{ width: 0 }}
-                animate={{ width: '500px' }}
+                animate={{ width: '500px'}}
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 className={`
                   pl-10 pr-10 py-2 rounded-full border-2 outline-none
@@ -78,7 +78,7 @@ import { AnimatePresence, motion } from 'framer-motion';
                     ? 'bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:border-gray-400' 
                     : 'bg-[#f5f5f5] text-white placeholder-gray-500 border-gray-300 focus:border-gray-500'
                   }
-                  w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px]
+                  w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] 
                 `}
               />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />

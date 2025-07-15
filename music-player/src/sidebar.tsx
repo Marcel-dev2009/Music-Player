@@ -54,7 +54,7 @@ export default function MusicSidebar({theme = 'dark'}) {
   return (
     <div className="min-h-screen">
       {/* Fixed Sidebar */}
-      <div className={` inline-block fixed top-0 left-0 h-screen bg-[#111] border-r border-slate-900 transition-all duration-300 ease-in-out z-40 ${
+      <div className={` hidden md:inline-block fixed top-0 left-0 h-screen bg-[#111] border-r border-slate-900 transition-all duration-300 ease-in-out z-40 ${
         isExpanded ? 'w-64' : 'w-16'
       } ${isVisible ? '-translate-x-0' : '-translate-x-full'}
       ${
@@ -67,10 +67,10 @@ export default function MusicSidebar({theme = 'dark'}) {
       `}>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-slate-700">
+        <div className=" flex items-center justify-between p-4 border-b border-slate-700">
           <div className={`flex items-center space-x-3 ${isExpanded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-              <img src={logo} alt="Muse-Logo" className={`w-6`}/>
+              <img src={logo} alt="Muse-Logo" className={`w-6 ${isDark ? 'bg-transparent': 'bg-gray-950 p-0.5 rounded-sm'}`}/>
             </div>
             <h1 className={`font-bold text-sm whitespace-nowrap lg:text-lg
             ${
