@@ -15,7 +15,8 @@ import {
   Ellipsis
 } from 'lucide-react';
 
-export default function MusicSidebar() {
+
+export default function MusicSidebar({theme = 'dark'}) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -33,11 +34,11 @@ export default function MusicSidebar() {
       
       setLastScrollY(currentScrollY);
     };
-
+      
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
-
+  const isDark = theme === 'dark';
   const menuItems = [
     { icon: Home, label: 'Home' },
     { icon: Search, label: 'Search' },
@@ -53,24 +54,40 @@ export default function MusicSidebar() {
   return (
     <div className="min-h-screen">
       {/* Fixed Sidebar */}
-      <div className={`fixed top-0 left-0 h-full bg-[#111] border-r border-slate-900 transition-all duration-300 ease-in-out z-40 ${
+      <div className={` inline-block fixed top-0 left-0 h-screen bg-[#111] border-r border-slate-900 transition-all duration-300 ease-in-out z-40 ${
         isExpanded ? 'w-64' : 'w-16'
-      } ${isVisible ? 'translate-x-0' : '-translate-x-full'}`}>
+      } ${isVisible ? '-translate-x-0' : '-translate-x-full'}
+      ${
+       isDark 
+                ? 'text-gray-300 hover:text-white' 
+                : 'text-black hover:text-gray-900 bg-[#F5F5F5]'
+                          
+      }
+    
+      `}>
         
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-700">
           <div className={`flex items-center space-x-3 ${isExpanded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-              <img src={logo} alt="Muse-Logo" className='w-6'/>
+              <img src={logo} alt="Muse-Logo" className={`w-6`}/>
             </div>
-            <h1 className="text-white font-bold text-sm whitespace-nowrap lg:text-lg">Muse Player</h1>
+            <h1 className={`font-bold text-sm whitespace-nowrap lg:text-lg
+            ${
+               isDark 
+                ? ' text-white hover:text-white' 
+                : 'text-black hover:text-gray-900'
+            }
+             active:scale-95 focus:outline-none
+            `}
+            >Muse Player</h1>
           </div>
           {isExpanded && (
             <button
               onClick={() => setIsExpanded(false)}
-              className="p-2 rounded-lg hover:bg-slate-700 transition-colors text-gray-300 hover:text-white"
+              className={`p-2 rounded-lg  transition-colors text-gray-300 hover:text-white ${isDark ? 'hover:bg-slate-700' : 'hover:bg-gray-100'}`}
             >
-              <X className="w-5 h-5" />
+              <X className='w-5 h-5' color={isDark ? '#fff' : '#000'}/>
             </button>
           )}
         </div>
@@ -84,10 +101,12 @@ export default function MusicSidebar() {
                 <button
                   className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-300  hover:text-white ${!isExpanded ? 'justify-center' : ''}`}
                 >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
+                  <Icon className="w-5 h-5 flex-shrink-0" color={isDark ? '#fff' : '#000'} />
                   <span className={`${
                     isExpanded ? 'opacity-100' : 'opacity-0 w-0'
-                  } transition-all duration-300 overflow-hidden whitespace-nowrap`}>
+                  } transition-all duration-300 overflow-hidden whitespace-nowrap
+                  ${isDark ? 'text-gray-100' : 'text-black'}
+                  `}>
                     {item.label}
                   </span>
                 </button>
@@ -110,8 +129,8 @@ export default function MusicSidebar() {
               <span className="text-white font-medium text-sm">JD</span>
             </div>
             <div className="flex-1">
-              <p className="text-white text-sm font-medium">John Doe</p>
-              <p className="text-gray-400 text-xs">Premium User</p>
+              <p className={` text-sm font-medium  ${isDark ? 'text-gray-100' : 'text-black'}`}>John Doe</p>
+              <p className={`text-xs  ${isDark ? 'text-gray-100' : 'text-black'}`}>Premium User</p>
             </div>
           </div>
         </div>

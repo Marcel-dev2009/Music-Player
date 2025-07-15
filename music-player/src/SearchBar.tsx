@@ -23,7 +23,7 @@ import { AnimatePresence, motion } from 'framer-motion';
        }
       }
         if(showInput){
-          document.addEventListener('keydown',handleEscape);
+          document.addEventListener('keydown', handleEscape);
           return () => document.removeEventListener('keydown' , handleEscape);
         }
     }, [showInput]);
@@ -31,7 +31,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
    return (
     <>
-     <div className='flex items-center '>
+     <div className='flex items-center'>
        <AnimatePresence mode='wait'>
           {!showInput ? (
             <motion.button
@@ -50,7 +50,7 @@ import { AnimatePresence, motion } from 'framer-motion';
               active:scale-95 focus:outline-none
             `}
             >
-         <Search className="w-5 h-5" />
+         <Search className="w-4 h-3 md:w-5 md:h-5  " />
             </motion.button>
           ) :(
             <motion.div
@@ -61,22 +61,22 @@ import { AnimatePresence, motion } from 'framer-motion';
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="flex items-center"
             >
-             <div className='relative z-1000'>
+             <div className='relative'>
                   <motion.input
                 ref={inputRef}
                 type="text"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search..."
+                placeholder="Search Songs , Artists , Playlists"
                 initial={{ width: 0 }}
-                animate={{ width: '280px' }}
+                animate={{ width: '500px' }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 className={`
                   pl-10 pr-10 py-2 rounded-full border-2 outline-none
                   transition-all duration-200
                   ${isDark 
                     ? 'bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:border-gray-400' 
-                    : 'bg-white text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500'
+                    : 'bg-[#f5f5f5] text-white placeholder-gray-500 border-gray-300 focus:border-gray-500'
                   }
                   w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px]
                 `}
