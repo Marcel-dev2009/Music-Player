@@ -19,37 +19,32 @@ const BottomBar: React.FC<BottomBarProps> = ({
   // Use prop if provided, otherwise use internal state
   const activeTab = propActiveTab || internalActiveTab;
   
-  const navItems = [
-    {
-      id: 'home',
-      label: 'Home',
-      icon: Home,
-    },
-    {
-      id: 'search',
-      label: 'Search',
-      icon: Search,
-    },
-    {
-      id: 'playlist',
-      label: 'Playlist',
-      icon: Music,
-    },
-  ];
-
-  const handleTabClick = (tabId: string) => {
-    // Update internal state
-    setInternalActiveTab(tabId);
-    
-    // Call parent's onTabChange if provided
+  const handleHomeClick = () => {
+    setInternalActiveTab('home');
     if (onTabChange) {
-      onTabChange(tabId);
+      onTabChange('home');
     }
-    
-    // If search tab is clicked, trigger the search bar
-    if (tabId === 'search' && onSearchTrigger) {
+    // Add home-specific logic here
+  };
+
+  const handleSearchClick = () => {
+    setInternalActiveTab('search');
+    if (onTabChange) {
+      onTabChange('search');
+    }
+    // Trigger the search bar
+    if (onSearchTrigger) {
       onSearchTrigger();
     }
+    // Add search-specific logic here
+  };
+
+  const handlePlaylistClick = () => {
+    setInternalActiveTab('playlist');
+    if (onTabChange) {
+      onTabChange('playlist');
+    }
+    // Add playlist-specific logic here
   };
 
   const isDark = theme === 'dark';
@@ -57,40 +52,91 @@ const BottomBar: React.FC<BottomBarProps> = ({
   return (
     <div className={`fixed bottom-0 left-0 right-0 border-t border-gray-700 md:hidden z-50 ${isDark ? 'bg-black' : 'bg-[#f5f5f5]'}`}>
       <div className="flex items-center justify-around h-16 px-4">
-        {navItems.map((item) => {
-          const IconComponent = item.icon;
-          const isActive = activeTab === item.id;
-          
-          return (
-            <button
-              key={item.id}
-              onClick={() => handleTabClick(item.id)}
-              className={`
-                flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg
-                transition-all duration-200 ease-in-out
-                ${isActive 
-                  ? 'text-blue-400 bg-blue-400/10' 
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
-                }
-                active:scale-95
-              `}
-            >
-              <IconComponent 
-                size={20} 
-                className={`
-                  transition-all duration-200
-                  ${isActive ? 'scale-110' : 'scale-100'}
-                `}
-              />
-              <span className={`
-                text-xs font-medium
-                ${isActive ? 'text-blue-400' : 'text-gray-500'}
-              `}>
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
+        
+        {/* Home Button */}
+        <button
+          onClick={handleHomeClick}
+          className={`
+            flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg
+            transition-all duration-200 ease-in-out
+            ${activeTab === 'home' 
+              ? 'text-blue-400 bg-blue-400/10' 
+              : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
+            }
+            active:scale-95
+          `}
+        >
+          <Home 
+            size={20} 
+            className={`
+              transition-all duration-200
+              ${activeTab === 'home' ? 'scale-110' : 'scale-100'}
+            `}
+          />
+          <span className={`
+            text-xs font-medium
+            ${activeTab === 'home' ? 'text-blue-400' : 'text-gray-500'}
+          `}>
+            Home
+          </span>
+        </button>
+
+        {/* Search Button */}
+        <button
+          onClick={handleSearchClick}
+          className={`
+            flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg
+            transition-all duration-200 ease-in-out
+            ${activeTab === 'search' 
+              ? 'text-blue-400 bg-blue-400/10' 
+              : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
+            }
+            active:scale-95
+          `}
+        >
+          <Search 
+            size={20} 
+            className={`
+              transition-all duration-200
+              ${activeTab === 'search' ? 'scale-110' : 'scale-100'}
+            `}
+          />
+          <span className={`
+            text-xs font-medium
+            ${activeTab === 'search' ? 'text-blue-400' : 'text-gray-500'}
+          `}>
+            Search
+          </span>
+        </button>
+
+        {/* Playlist Button */}
+        <button
+          onClick={handlePlaylistClick}
+          className={`
+            flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg
+            transition-all duration-200 ease-in-out
+            ${activeTab === 'playlist' 
+              ? 'text-blue-400 bg-blue-400/10' 
+              : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
+            }
+            active:scale-95
+          `}
+        >
+          <Music 
+            size={20} 
+            className={`
+              transition-all duration-200
+              ${activeTab === 'playlist' ? 'scale-110' : 'scale-100'}
+            `}
+          />
+          <span className={`
+            text-xs font-medium
+            ${activeTab === 'playlist' ? 'text-blue-400' : 'text-gray-500'}
+          `}>
+            Playlist
+          </span>
+        </button>
+
       </div>
     </div>
   );

@@ -31,18 +31,25 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
     }
   }, [showInput]);
 
-  /* Handle Esc Keyword */
+  /* Handle keyboard shortcuts */
   useEffect(() => {
-    const handleEscape = (e:KeyboardEvent) => {
-     if(e.key === 'Escape' || e.key === 'Enter'){
-      setShowInput(false);
-      setSearchValue('');
-     }
-    }
-      if(showInput){
-        document.addEventListener('keydown', handleEscape);
-        return () => document.removeEventListener('keydown' , handleEscape);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Handle Ctrl+K to open search bar
+      if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault();
+        setShowInput(true);
+        return;
       }
+      
+      // Handle Escape and Enter to close search bar (only when search is open)
+      if (showInput && (e.key === 'Escape' || e.key === 'Enter')) {
+        setShowInput(false);
+        setSearchValue('');
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showInput]);
 
   const isDark = theme === 'dark';
