@@ -53,7 +53,7 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
   }, [showInput]);
 
   const isDark = theme === 'dark';
-
+  localStorage.setItem('saveTheme', theme)
  return (
   <>
    <div className='flex items-center'>
@@ -75,7 +75,7 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
             active:scale-95 focus:outline-none
           `}
           >
-       <Search className="w-4 h-3 md:w-5 md:h-5  " />
+       <Search className="w-4 h-3 md:w-5 md:h-5  "/>
           </motion.button>
         ) :(
           <motion.div

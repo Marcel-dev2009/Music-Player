@@ -9,21 +9,12 @@ export default function MusicApp() {
 const [theme ,  setTheme] = useState('dark');
 const [triggerSearch , setTriggerSearch] = useState(false);
 const [activeTab , setActiveTab] = useState('home');
-
-/* const array = [
-  {
-  sj
-  kkl
-  dl
-}
-] */
-
 const MusicItems: MusicItem[] = [
    {
       id : '1',
       title : 'Chill Vibes',
       artist : 'Various Artists',
-      coverImage: 'https://via.placeholder.com/300x300.png?text=Cover+1',
+      coverImage: '/Static-assets/DSC.jpeg',
       type : 'playlist',
       trackCount : 25,
       isLiked : true,
@@ -74,7 +65,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '7',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -83,7 +74,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '8',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -92,7 +83,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '9',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -101,7 +92,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '10',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -110,7 +101,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '11',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -119,7 +110,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '12',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -128,7 +119,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '13',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -137,7 +128,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '14',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -146,7 +137,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '15',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -155,7 +146,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '16',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -164,7 +155,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '17',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -173,7 +164,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '18',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -182,7 +173,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '19',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -191,7 +182,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '20',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -200,7 +191,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '21',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -209,7 +200,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '22',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -218,7 +209,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '23',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -227,7 +218,7 @@ const MusicItems: MusicItem[] = [
       isLiked : true
    },
    {
-      id : '6',
+      id : '24',
       title : 'Rap Caviar',
       artist : 'Hip Hop Central',
       coverImage: '/Static-assets/DSC.jpeg',
@@ -267,12 +258,16 @@ const handleTriggerSearch =  () => {
 const handleSearchTrigggerd = () => {
    setTriggerSearch(false);
 }
-  
  
  useEffect(() => {
   document.body.className = theme === 'dark' ? 'dark bg-gray-900' : 'light bg-gray-100';
+
  }, [theme]);
 
+ useEffect(() =>{
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme); 
+ } , [])
   return(
    <>
 <div className={` overflow-hidden flex min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-100'}`}>
