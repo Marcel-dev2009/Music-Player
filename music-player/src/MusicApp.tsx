@@ -3,12 +3,14 @@ import BottomBar from "./Bottombar";
 import Sidebar from "./sidebar";
 import Themetoggle from "./Themetoggle";
 import { useEffect, useState } from "react";
-import MusicGrid  from "./musicGrid";
-import type { MusicItem } from "./musicGrid";
+ import MusicGrid  from "./musicGrid";
+ import { Outlet } from 'react-router-dom';
+import type { MusicItem } from "./musicGrid"; 
 export default function MusicApp() {
 const [theme ,  setTheme] = useState('dark');
 const [triggerSearch , setTriggerSearch] = useState(false);
 const [activeTab , setActiveTab] = useState('home');
+/* const [sidebarExpanded , setIsExpanded] = useState(true); */
 const MusicItems: MusicItem[] = [
    {
       id : '1',
@@ -226,11 +228,9 @@ const MusicItems: MusicItem[] = [
       trackCount : 50,
       isLiked : true
    },
-]
-/* const [sidebarExpanded, setSidebarExpanded] = useState(false); */
-const [musicItems, setMusicItems] = useState(MusicItems);
-
- const handlePlay = (id: string) => {
+] 
+ const [musicItems, setMusicItems] = useState(MusicItems);
+  const handlePlay = (id: string) => {
     console.log('Playing music with ID:', id);
     // Add your play logic here
     // Example: playTrack(id) or setCurrentTrack(id)
@@ -251,7 +251,7 @@ const [musicItems, setMusicItems] = useState(MusicItems);
     console.log('Sharing music with ID:', id);
     // Add your share logic here
     // Example: shareTrack(id) or openShareModal(id)
-  };
+  }; 
 const handleTriggerSearch =  () => {
    setTriggerSearch(true);
 }
@@ -272,13 +272,15 @@ const handleSearchTrigggerd = () => {
    <>
 <div className={` overflow-hidden flex min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-100'}`}>
    <aside className="overflow-y-auto">
+      {/* {sidebarExpanded ? 'w-64' : 'w-16'} */}
            <Sidebar theme={theme} activeTab={activeTab}
-           onSearchTrigger={handleTriggerSearch}
+           onSearchTrigger={handleTriggerSearch} 
+             
            />     
            <BottomBar theme={theme} activeTab={activeTab} onTabChange={setActiveTab} onSearchTrigger={handleTriggerSearch}/>
     </aside> 
-     <main className="flex-1 overflow-y-auto md:ml-64 transition-all duration-300">
-        <div className="max-w-4xl mx-auto p-4 md:p-8 overflow-x-hidden ">
+     <main className="flex-1 overflow-y-auto md:ml-12 transition-all duration-300">
+        <div className="max-w-4xl mx-auto p-4 md:p-8 overflow-x-hidden"> 
           <div className="flex gap-60 lg:justify-between">
          <SearchBar theme={theme} triggerSearch={triggerSearch} onSearchTriggered={handleSearchTrigggerd}/> 
        <Themetoggle theme={theme} onThemeChange={(newTheme) => setTheme(newTheme)}></Themetoggle>
@@ -286,17 +288,17 @@ const handleSearchTrigggerd = () => {
         </div> {/* Navbar end */}
        
        <div className="flex-1">
-           
-<MusicGrid items={musicItems} sidebarExpanded={true} onPlay={handlePlay}
+     <MusicGrid items={musicItems} /* isExpanded={true}  */onPlay={handlePlay}
        onLike={handleLike}
        onShare={handleShare}
        theme={theme}
         />
        </div> {/* Display div end */}
-
-
      </main>
       </div> {/*  End Container End */}
+      <div className="flex-1">
+         <Outlet/>
+      </div>
    </>
   );
 }

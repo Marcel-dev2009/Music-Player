@@ -1,6 +1,10 @@
 import { useState} from 'react';
 import logo from '/Static-assets/logo.png'
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+/* import MusicGrid  from "./musicGrid";
+import type { MusicItem } from "./musicGrid"; */
+
 import { 
   Home, 
   Search,
@@ -26,29 +30,10 @@ export default function MusicSidebar({theme = 'dark',
   onSearchTrigger, /* expanded = true, onToggle */
 } : SideSearchProps) {
   const [isExpanded, setIsExpanded] = useState(true);
- /*  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0); */
-/* 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Show sidebar when scrolling down, hide when scrolling up
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        setIsVisible(false);
-      } else if (currentScrollY < lastScrollY) {
-        setIsVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
-      
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]); */
-
+  /* <MusicGrid /> */
   const isDark = theme === 'dark';
  const navigate = useNavigate();
+
   // Individual menu item handlers
   const handleHomeClick = () => {
     navigate('/Main')
@@ -61,42 +46,36 @@ export default function MusicSidebar({theme = 'dark',
   };
 
   const handleLibraryClick = () => {
-    console.log('Library clicked');
-    // Add library navigation
+   navigate('/library')
   };
 
   const handleLikedSongsClick = () => {
-    console.log('Liked Songs clicked');
-    // Add liked songs navigation
+     navigate('/likedSongs')
   };
 
   const handleRecentlyPlayedClick = () => {
-    console.log('Recently Played clicked');
-    // Add recently played navigation
+   navigate('/recentlyPlayed')
   };
 
   const handleRadioClick = () => {
-    console.log('Radio clicked');
-    // Add radio functionality
+     navigate('/radio')
   };
 
   const handlePodcastsClick = () => {
-    console.log('Podcasts clicked');
-    // Add podcasts navigation
+      navigate('/podcast')
   };
 
   const handleChartsClick = () => {
-    console.log('Charts clicked');
-    // Add charts navigation
+     navigate('/charts')
   };
 
   const handleSettingsClick = () => {
-    console.log('Settings clicked');
-    // Add settings modal/navigation
+    navigate('/settings');
   };
+  
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen ">
       {/* Fixed Sidebar */}
       <div className={` hidden md:inline-block fixed top-0 left-0 h-screen bg-[#111] border-r border-slate-900 transition-all duration-300 ease-in-out z-40 ${
         isExpanded ? 'w-64' : 'w-16'
@@ -135,7 +114,7 @@ export default function MusicSidebar({theme = 'dark',
             </button>
           )}
         </div>
-
+  
         {/* Navigation */}
         <nav className="p-4 space-y-2">
           {/* Home */}
@@ -318,7 +297,7 @@ export default function MusicSidebar({theme = 'dark',
           <div className="relative group">
             <button
               onClick={handleSettingsClick}
-              className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-300  hover:text-white ${!isExpanded ? 'justify-center' : ''} hover:bg-gray-700`}
+              className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-300  hover:text-white  ${!isExpanded ? 'justify-center ' : 'hover:bg-gray-700'} `}
             >
               <Settings className="w-5 h-5 flex-shrink-0" color={isDark ? '#fff' : '#000'} />
               <span className={`${
@@ -360,10 +339,9 @@ export default function MusicSidebar({theme = 'dark',
           >
             <Ellipsis className="w-4 h-4 text-gray-300" />
           </button>
-       
-
         {/* Show button when sidebar is hidden */}
-      </div>
-    </div>
+      </div> 
+      
+    </div>  /*  Main div end */
   );
 }

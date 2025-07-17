@@ -14,17 +14,17 @@ export interface MusicItem {
 
 interface MusicGridProps {
   items: MusicItem[];
-  sidebarExpanded?: boolean;
+  isExpanded?: boolean;
   onPlay?: (id: string) => void;
   onLike?: (id: string) => void;
   onShare?: (id: string) => void;
- theme : string;
+  theme : string;
 }
 
 
 const MusicGrid: React.FC<MusicGridProps> = ({
   items,
-  sidebarExpanded = false,
+  isExpanded = true,
   onPlay,
   onLike,
   onShare,
@@ -32,8 +32,8 @@ const MusicGrid: React.FC<MusicGridProps> = ({
 }) => {
   // Calculate grid columns based on sidebar state
   const isDark = theme === 'dark';
-  const getGridCols = () => {
-    if (sidebarExpanded) {
+  const getGridCols = () => {    
+    if (isExpanded) {
       // Sidebar width: 64 (16rem), more space for cards
       return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6';
     } else {
@@ -42,10 +42,11 @@ const MusicGrid: React.FC<MusicGridProps> = ({
     }
   };
 
-  return (
-    <div className={`min-h-screen text-white ${isDark ? 'bg-black' : 'bg-white'}`}>
+  return ( 
+    <div className={`min-h-screen text-white ${isDark ? 'bg-black' : 'bg-white'} 
+    `}>
       {/* Header Section */}
-      <div className={` p-6  ${isDark ? 'bg-gradient-to-b from-gray-900 to-black': 'border-t border-l border-black bg-white shadow-red '} `}>
+      <div className={` p-6  ${isDark ? 'border border-white/10 rounded-xl bg-gray-800/30': 'border-t border-l border-black bg-white '} `}>
         <h1 className={`text-3xl font-bold  mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Your Music</h1>  
         <p className={isDark ? 'text-gray-400' : 'text-black'}>Discover and enjoy your favorite tracks</p>
       </div>
@@ -72,7 +73,7 @@ const MusicGrid: React.FC<MusicGridProps> = ({
         {/* Made for You Section */}
         <section>
           <h2 className={`text-xl font-semibold  mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Made for You</h2>
-          <div className={`grid ${getGridCols()} gap-4`}>
+          <div className={`grid ${getGridCols()} gap-4`}> 
             {items.slice(6, 12).map((item) => (
               <MusicCard
                 key={item.id}
@@ -89,7 +90,7 @@ const MusicGrid: React.FC<MusicGridProps> = ({
         {/* Popular Playlists Section */}
         <section>
           <h2 className="text-xl font-semibold text-white mb-4">Popular Playlists</h2>
-          <div className={`grid ${getGridCols()} gap-4`}>
+          <div className={`grid ${getGridCols()}  gap-4`}>
             {items.slice(12).map((item) => (
               <MusicCard
                 key={item.id}
