@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Home, Search, Music , Settings} from 'lucide-react';
 
 interface BottomBarProps {
@@ -15,7 +16,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
   theme = 'dark'
 }) => {
   const [internalActiveTab, setInternalActiveTab] = useState('home');
-  
+   const navigate = useNavigate();
   // Use prop if provided, otherwise use internal state
   const activeTab = propActiveTab || internalActiveTab;
   
@@ -51,7 +52,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
    if(onTabChange){
     onTabChange('settings')
    }
-   /* \ */
+    navigate('/settings');
  }
   const isDark = theme === 'dark';
   
