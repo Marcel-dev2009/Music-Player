@@ -9,21 +9,26 @@ const Redirect = () => {
      const hasVisited = localStorage.getItem('hasVisited');
      const hasAuth = localStorage.getItem('hasAuth');
      const hasSetProfile = localStorage.getItem('hasSetProfile');
+
      if(hasVisited){
-    navigate('auth');
+    navigate('/auth');
   }else{
     localStorage.setItem('hasVisited' , 'true');
     navigate('/intro');
   }
+
     if(hasAuth){
       navigate('/profile-setup');
-    } else {
+    } 
+    else {
       localStorage.setItem('hasAuth' , 'true');
       navigate('/sign');
     } 
+
     if(hasSetProfile){
       navigate('/Main');
-    }else{
+    }
+    else{
       localStorage.setItem('hasSetProfile', 'true');
       navigate('/profile-setup');
     }
