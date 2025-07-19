@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Search, Music , Settings} from 'lucide-react';
+import { Home, Search, Music } from 'lucide-react';
 
 interface BottomBarProps {
   activeTab?: string;
@@ -9,13 +9,14 @@ interface BottomBarProps {
   theme: string;
 }
 
-const BottomBar: React.FC<BottomBarProps> = ({
+const SettingsBar: React.FC<BottomBarProps> = ({
   activeTab: propActiveTab,
   onTabChange,
   onSearchTrigger,
   theme = 'dark'
 }) => {
-  const [internalActiveTab, setInternalActiveTab] = useState('home');
+  const [internalActiveTab, setInternalActiveTab] = useState('settings');
+
    const navigate = useNavigate();
   const activeTab = propActiveTab || internalActiveTab;
   
@@ -39,20 +40,14 @@ const BottomBar: React.FC<BottomBarProps> = ({
    
   };
 
-  const handlePlaylistClick = () => {
+  const handleLibraryClick = () => {
     setInternalActiveTab('playlist');
     if (onTabChange) {
       onTabChange('playlist');
     }
-    // Add playlist-specific logic here
+     navigate('/library')
   };
- const handleSettingsClick = () => {
-   setInternalActiveTab('settings');
-   if(onTabChange){
-    onTabChange('settings')
-   }
-    navigate('/settings');
- }
+ 
   const isDark = theme === 'dark';
   
   return (
@@ -117,11 +112,11 @@ const BottomBar: React.FC<BottomBarProps> = ({
 
         {/* Playlist Button */}
         <button
-          onClick={handlePlaylistClick}
+          onClick={handleLibraryClick}
           className={`
             flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg
             transition-all duration-200 ease-in-out
-            ${activeTab === 'playlist' 
+            ${activeTab === 'library' 
               ? 'text-blue-400 bg-blue-400/10' 
               : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
             }
@@ -132,41 +127,20 @@ const BottomBar: React.FC<BottomBarProps> = ({
             size={20} 
             className={`
               transition-all duration-200
-              ${activeTab === 'playlist' ? 'scale-110' : 'scale-100'}
+              ${activeTab === 'library' ? 'scale-110' : 'scale-100'}
             `}
           />
           <span className={`
             text-xs font-medium
-            ${activeTab === 'playlist' ? 'text-blue-400' : 'text-gray-500'}
+            ${activeTab === 'library' ? 'text-blue-400' : 'text-gray-500'}
           `}>
-            Playlist
+            Library
           </span>
         </button>
-       {/*  Settings  */}
-      <button
-      onClick={handleSettingsClick}
-      className={`flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg
-            transition-all duration-200 ease-in-out
-            ${activeTab === 'settings' 
-              ? 'text-blue-400 bg-blue-400/10' 
-              : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
-            }
-            active:scale-95`}
-      >
-      <Settings
-      size={20}
-      className={` transition-all duration-200
-              ${activeTab === 'settings' ? 'scale-110' : 'scale-100'}`}
-      />
-      <span
-      className={`text-xs font-medium
-            ${activeTab === 'settings' ? 'text-blue-400' : 'text-gray-500'}`}>
-         Settings
-      </span>
-      </button>
+      
       </div>
     </div>
   );
 };
 
-export default BottomBar;
+export default SettingsBar;

@@ -46,9 +46,9 @@ const MusicGrid: React.FC<MusicGridProps> = ({
     <div className={`min-h-screen text-white ${isDark ? 'bg-black' : 'bg-white'} 
     `}>
       {/* Header Section */}
-      <div className={` p-6  ${isDark ? 'border border-white/10 rounded-xl bg-gray-800/30': 'border-t border-l border-black bg-white '} `}>
+      <div className={` p-6  ${isDark ? 'border border-white/10 rounded-xl bg-linear-65 from-black to-blue-900': 'border rounded-xl border-black bg-linear-65 from-white to-blue-300 '}`}>
         <h1 className={`text-3xl font-bold  mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Your Music</h1>  
-        <p className={isDark ? 'text-gray-400' : 'text-black'}>Discover and enjoy your favorite tracks</p>
+        <p className={isDark ? 'text-[#f5f5f5]' : 'text-black'}>Discover and enjoy your favorite tracks</p>
       </div>
 
       {/* Main Content */}

@@ -46,7 +46,7 @@ const MusicCard: React.FC<MusicCardProps> = ({
 
   return (
     <div className={`group relative  rounded-lg p-4  transition-all duration-300 cursor-pointer
-      ${isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-[#f5f5f5] border border-gray-800 hover:bg-gray-500'}
+      ${isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-blue-200 border border-gray-800 hover:bg-gray-500'}
     `}>
       {/* Cover Image Container */}
       <div className="relative mb-4 aspect-square overflow-hidden rounded-lg bg-gray-700">
