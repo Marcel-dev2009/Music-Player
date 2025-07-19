@@ -179,6 +179,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
 
           if(!cloudinaryResponse.ok) {
           throw new Error(`Failed to upload image to Cloudinary ${cloudinaryResponse.status}`);
+          
          }
             const data = await cloudinaryResponse.json();
           profilePicUrl = data.secure_url;

@@ -12,7 +12,7 @@ const Redirect = () => {
 
      if(hasVisited){
     navigate('/auth');
-  }else{
+  } else{
     localStorage.setItem('hasVisited' , 'true');
     navigate('/intro');
   }

@@ -1,9 +1,9 @@
 import { useState} from 'react';
+import { useEffect } from 'react';
 import logo from '/Static-assets/logo.png'
 import { useNavigate } from 'react-router-dom';
-
-/* import MusicGrid  from "./musicGrid";
-import type { MusicItem } from "./musicGrid"; */
+import {getDoc , doc} from 'firebase/firestore';
+import { db } from './firebase';
 
 import { 
   Home, 
@@ -18,6 +18,7 @@ import {
   X,
   Ellipsis
 } from 'lucide-react';
+import { getAuth } from 'firebase/auth';
 
  interface SideSearchProps{
    activeTab?: string;
@@ -33,7 +34,7 @@ export default function MusicSidebar({theme = 'dark',
   /* <MusicGrid /> */
   const isDark = theme === 'dark';
  const navigate = useNavigate();
-
+ const [userName , setUserName] = useState<string | null>(null);
   // Individual menu item handlers
   const handleHomeClick = () => {
     navigate('/Main')
@@ -66,14 +67,44 @@ export default function MusicSidebar({theme = 'dark',
   };
 
   const handleChartsClick = () => {
-     navigate('/charts')
+     navigate('/charts')  
   };
 
   const handleSettingsClick = () => {
     navigate('/settings');
   };
-  
-
+  async function getuserName(){
+   const auth = getAuth();
+    const user = auth.currentUser;
+    if(user){
+      const userRef = doc(db, 'users' , user.uid);
+      try{
+         const userDoc = await getDoc(userRef);
+      if(userDoc.exists()){
+        const userName = userDoc.data().name;
+        console.log('User Name:' , userName);
+        return userName;
+      } else{
+        console.log('No such user')
+        return null;
+      }
+      } catch(error){
+        console.error('Error fetching user data:', error);
+      }
+    } else{
+      console.log('No user is signed in');
+      return null;
+    }
+  }
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const name = await getuserName();
+      if(name){
+        setUserName(name);
+      }
+    };
+    fetchUserName();
+  }, []);
   return (
     <div className="min-h-screen ">
       {/* Fixed Sidebar */}
@@ -323,7 +354,7 @@ export default function MusicSidebar({theme = 'dark',
               <span className="text-white font-medium text-sm">JD</span>
             </div>
             <div className="flex-1">
-              <p className={` text-sm font-medium  ${isDark ? 'text-gray-100' : 'text-black'}`}>John Doe</p>
+              <p className={` text-sm font-medium  ${isDark ? 'text-gray-100' : 'text-black'} name`}>Welcome , {userName}</p>
               <p className={`text-xs  ${isDark ? 'text-gray-100' : 'text-black'}`}>Premium User</p>
             </div>
           </div>
