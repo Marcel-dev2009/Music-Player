@@ -168,15 +168,26 @@ const fileInputRef = useRef<HTMLInputElement>(null);
       let profilePicUrl = '';
 
       if(profilePic){
-          const formData = new FormData();
+        try{
+            const formData = new FormData();
           formData.append('file', profilePic);
           formData.append('upload_preset', 'user_profile_photos');
-          const cloudinaryResponse  = await fetch('https://api.cloudinary.com/v1_1/ dfsrso3jk/image/upload',{
+          const cloudinaryResponse  = await fetch('https://api.cloudinary.com/v1_1/dfsrso3jk/image/upload',{
             method: 'POST',
             body: formData,
           });
-          const data = await cloudinaryResponse.json();
+
+          if(!cloudinaryResponse.ok) {
+          throw new Error(`Failed to upload image to Cloudinary ${cloudinaryResponse.status}`);
+         }
+            const data = await cloudinaryResponse.json();
           profilePicUrl = data.secure_url;
+        } 
+        catch (error) {
+          console.error('Error uploading profile picture:', error);
+          alert('Failed to upload profile picture. Please try again.');
+          return;
+        }
       }
         
       const userDocRef = doc(db , 'users' , user.uid);
