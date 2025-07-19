@@ -14,7 +14,8 @@ function Entrance() {
   
    return(
     <>
-       <div className=' m-5 flex justify-between items-center'>
+       <div className='overflow-hidden'>
+     <div className=' m-5 flex justify-between items-center '>
         <img src={logo} alt="Image" style={{width:"1.5rem"}} />
       {/*    <Themetoggle/> */}
        </div>
@@ -48,6 +49,7 @@ function Entrance() {
         >     Launch App
         </motion.button> 
            </div>
+       </div>{/*  Container end */}
     </>
    )
 }
