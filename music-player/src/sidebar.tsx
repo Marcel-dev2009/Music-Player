@@ -99,7 +99,7 @@ export default function MusicSidebar({theme = 'dark',
       }
     } else{
       console.warn('No user is signed in');
-   setloading(false);
+      setloading(false);
     }
    
   });

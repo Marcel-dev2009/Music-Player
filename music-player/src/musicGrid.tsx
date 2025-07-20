@@ -51,30 +51,30 @@ const MusicGrid: React.FC<MusicGridProps> = ({
 useEffect(() => { 
   const auth = getAuth();
    const getuserName = onAuthStateChanged(auth , async (user) => {
-   
+    
  if(user){
+   const userRef = doc(db, 'users', user.uid);
    try{
-  const  userRef = doc(db,  'users', user.uid);
-    const userDoc = await getDoc(userRef);
-    if(userDoc.exists()){
-      const userName = userDoc.data().name;
-      setUserName(userName);
-      setloading(false);
-      return userName;
-    } else{
-      console.log('No user data found');
-      return null;
-    }
+     const userData = await getDoc(userRef);
+     if(userData.exists()){
+      const name:string = userData.data().name;
+      setUserName(name);
+     } else{
+      console.log('No user data');
+     }
    } catch(error){
-    console.error("Error fetching user name:", error);
-    return null;
+    console.error('Error fetching user data:', error);
+   }
+   finally{
+    setloading(false);
    }
  } else{
-   console.warn("No user is currently signed in.");
-   return null;
+  console.error('No user is signed in');
+  setloading(false);
  }
-})
-  return () => getuserName();
+
+}); /* AuthstageChanged end */
+ return () => getuserName();
 }, []);
   return ( 
     <div className={`min-h-screen text-white ${isDark ? 'bg-black' : 'bg-white'} 
@@ -93,7 +93,7 @@ useEffect(() => {
              animate={{opacity: 1}}
              transition={{ duration: 0.5, delay: 0.2 }}
               >
-              {userName ? `Welcome, ${userName}` : 'Welcome to Muse Player'}
+              {userName ? `Welcome , ${userName}` : 'Welcome to Muse Player'}
              </motion.p>
             )
             }
