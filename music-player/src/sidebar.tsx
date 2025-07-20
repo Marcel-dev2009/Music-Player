@@ -86,7 +86,7 @@ export default function MusicSidebar({theme = 'dark',
       if(userDoc.exists()){
         const name:string = userDoc.data().name;
        setUserName(name);
-        /* return name; */
+        return name;
       } else{
         console.log('No such user')
         /* return null; */
