@@ -93,20 +93,22 @@ export default function MusicSidebar({theme = 'dark',
       }
       } catch(error){
         console.error('Error fetching user data:', error);
+      } 
+      finally{
+        setloading(false);
       }
     } else{
       console.warn('No user is signed in');
-      /* return null; */
-    }
-      
    setloading(false);
+    }
+   
   });
     return () => getuserName();
 
   }, []);
 
 
-  console.log(userName);
+  
   return (
     <div className="min-h-screen ">
       {/* Fixed Sidebar */}
