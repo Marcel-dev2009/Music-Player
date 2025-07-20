@@ -186,4 +186,8 @@ input:checked + .slider:before {
   left: 1rem;
   top: 2rem;
 }
+.dash{
+  animation: dash 3s ease-in linear;
+}
+
 

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import logo from '/Static-assets/logo.png'
 import { useNavigate } from 'react-router-dom';
 import {getDoc , doc} from 'firebase/firestore';
+import { motion } from 'framer-motion';
 import { db } from './firebase';
 
 import { 
@@ -18,7 +19,7 @@ import {
   X,
   Ellipsis
 } from 'lucide-react';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
  interface SideSearchProps{
    activeTab?: string;
@@ -30,11 +31,12 @@ import { getAuth } from 'firebase/auth';
 export default function MusicSidebar({theme = 'dark',
   onSearchTrigger, /* expanded = true, onToggle */
 } : SideSearchProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   /* <MusicGrid /> */
   const isDark = theme === 'dark';
  const navigate = useNavigate();
  const [userName , setUserName] = useState<string | null>(null);
+ const [loading , setloading] = useState(true);
   // Individual menu item handlers
   const handleHomeClick = () => {
     navigate('/Main')
@@ -73,17 +75,19 @@ export default function MusicSidebar({theme = 'dark',
   const handleSettingsClick = () => {
     navigate('/settings');
   };
-  async function getuserName(){
-   const auth = getAuth();
-    const user = auth.currentUser;
+ 
+  useEffect(() => {
+      const auth = getAuth();
+    const getuserName = onAuthStateChanged(auth, async (user) => {
     if(user){
       const userRef = doc(db, 'users' , user.uid);
       try{
          const userDoc = await getDoc(userRef);
       if(userDoc.exists()){
-        const userName = userDoc.data().name;
-        console.log('User Name:' , userName);
-        return userName;
+        const name:string = userDoc.data().name;
+       setUserName(name);
+       setloading(false);
+        return name;
       } else{
         console.log('No such user')
         return null;
@@ -95,16 +99,13 @@ export default function MusicSidebar({theme = 'dark',
       console.log('No user is signed in');
       return null;
     }
-  }
-  useEffect(() => {
-    const fetchUserName = async () => {
-      const name = await getuserName();
-      if(name){
-        setUserName(name);
-      }
-    };
-    fetchUserName();
+  });
+    return () => getuserName();
+
   }, []);
+
+
+  console.log(userName);
   return (
     <div className="min-h-screen ">
       {/* Fixed Sidebar */}
@@ -354,8 +355,22 @@ export default function MusicSidebar({theme = 'dark',
               <span className="text-white font-medium text-sm">JD</span>
             </div>
             <div className="flex-1">
-              <p className={` text-sm font-medium  ${isDark ? 'text-gray-100' : 'text-black'} name`}>Welcome , {userName}</p>
-              <p className={`text-xs  ${isDark ? 'text-gray-100' : 'text-black'}`}>Premium User</p>
+                {
+                  loading ? (
+                    <div className='bg-black/10 border border-white/10 p-2 rounded-full animate-pulse'></div>
+                  ) : (
+                    <motion.p
+                                 initial={{opacity: 0}}
+                                 animate={{opacity: 1}}
+                                 transition={{ duration: 0.5, delay: 0.2 }}
+                                 className={`${isDark ? 'text-white' : 'text-black'} font-semibold `}
+                                  >
+                                  {userName ? `Welcome, ${userName}` : 'Welcome to Muse Player'}
+                                 </motion.p>
+                  )
+                }
+             
+              <p className={`text-xs mt-2 ${isDark ? 'text-gray-100' : 'text-black'}`}>Premium User</p>
             </div>
           </div>
         </div>
