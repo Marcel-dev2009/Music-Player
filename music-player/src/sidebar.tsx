@@ -86,19 +86,20 @@ export default function MusicSidebar({theme = 'dark',
       if(userDoc.exists()){
         const name:string = userDoc.data().name;
        setUserName(name);
-       setloading(false);
-        return name;
+        /* return name; */
       } else{
         console.log('No such user')
-        return null;
+        /* return null; */
       }
       } catch(error){
         console.error('Error fetching user data:', error);
       }
     } else{
-      console.log('No user is signed in');
-      return null;
+      console.warn('No user is signed in');
+      /* return null; */
     }
+      
+   setloading(false);
   });
     return () => getuserName();
 
