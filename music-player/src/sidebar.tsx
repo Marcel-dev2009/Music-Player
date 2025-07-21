@@ -75,10 +75,12 @@ export default function MusicSidebar({theme = 'dark',
   const handleSettingsClick = () => {
     navigate('/settings');
   };
- 
+ /* const this = onauthstateChanges()=>{
+ } */
   useEffect(() => {
       const auth = getAuth();
-    const getuserName = onAuthStateChanged(auth, async (user) => {
+      
+    const getuserName = onAuthStateChanged(auth , async user => {
     if(user){
       const userRef = doc(db, 'users' , user.uid);
       try{
@@ -86,6 +88,7 @@ export default function MusicSidebar({theme = 'dark',
       if(userDoc.exists()){
         const name:string = userDoc.data().name;
        setUserName(name);
+       setloading(false);
         return name;
       } else{
         console.log('No such user')
@@ -94,9 +97,9 @@ export default function MusicSidebar({theme = 'dark',
       } catch(error){
         console.error('Error fetching user data:', error);
       } 
-      finally{
+    /*   finally{
         setloading(false);
-      }
+      } */
     } else{
       console.warn('No user is signed in');
       setloading(false);

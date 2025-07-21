@@ -59,15 +59,17 @@ useEffect(() => {
      if(userData.exists()){
       const name:string = userData.data().name;
       setUserName(name);
+      setloading(false);
+      return name;
      } else{
       console.log('No user data');
      }
    } catch(error){
     console.error('Error fetching user data:', error);
    }
-   finally{
+   /* finally{
     setloading(false);
-   }
+   } */
  } else{
   console.error('No user is signed in');
   setloading(false);
