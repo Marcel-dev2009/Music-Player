@@ -48,65 +48,34 @@ const MusicGrid: React.FC<MusicGridProps> = ({
   };
  const [userName , setUserName] = useState<string|null>(null);
  const [loading , setloading] = useState(true);
-useEffect(() => {
-  let isMounted = true; // Track if component is still mounted
+useEffect(() => { 
   const auth = getAuth();
-  
-  const unsubscribe = onAuthStateChanged(auth, async (user) => {
-    if (!isMounted) return; // Don't update state if component unmounted
-    
-    console.log('Auth state changed:', user ? 'User found' : 'No user');
-    
-    if (user) {
-      console.log('User UID:', user.uid);
-      
-      try {
-        const userRef = doc(db, 'users', user.uid);
-        
-        // Add timeout to handle slow networks
-        const fetchWithTimeout = Promise.race([
-          getDoc(userRef),
-          new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Firestore timeout')), 10000)
-          )
-        ]);
-        
-        const userData = await fetchWithTimeout;
-        
-        if (!isMounted) return; // Check again before updating state
-        
-        if (userData.exists()) {
-          const name: string = userData.data().name;
-          console.log('User data loaded:', name);
-          setUserName(name);
-        } else {
-          console.log('No user document found in Firestore');
-          setUserName(null);
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        if (isMounted) {
-          setUserName(null);
-        }
-      } finally {
-        if (isMounted) {
-          setloading(false);
-        }
-      }
-    } else {
-      console.log('No user signed in');
-      if (isMounted) {
-        setUserName(null);
-        setloading(false);
-      }
-    }
-  });
+  const getuserName = onAuthStateChanged(auth , async (user) => {   
+ if(user){
+   const userRef = doc(db, 'users', user.uid);
+   try{
+     const userData = await getDoc(userRef);
+     if(userData.exists()){
+      const name:string = userData.data().name;
+      setUserName(name);
+      setloading(false);
+      return name;
+     } else{
+      console.log('No user data');
+     }
+   } catch(error){
+    console.error('Error fetching user data:', error);
+   }
+   /* finally{
+    setloading(false);
+   } */
+ } else{
+  console.error('No user is signed in');
+  setloading(false);
+ }
 
-  // Cleanup function
-  return () => {
-    isMounted = false;
-    unsubscribe();
-  };
+}); /* AuthstageChanged end */
+ return () => getuserName();
 }, []);
   return ( 
     <div className={`min-h-screen text-white ${isDark ? 'bg-black' : 'bg-white'} 
