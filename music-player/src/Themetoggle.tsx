@@ -35,8 +35,8 @@ export default function ThemeToggle({ theme, onThemeChange }: ThemeToggleProps) 
       onClick={handleClick}
       className={`p-2 rounded-full transition-all duration-200 active:scale-95 focus:outline-none 
         ${isDark
-          ? "text-gray-300 hover:text-white hover:bg-gray-800 bg-gray-800" 
-          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 bg-white"
+          ? "text-gray-300 hover:text-white hover:bg-gray-800" 
+          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
         }`}
     >
       <motion.div
@@ -46,9 +46,9 @@ export default function ThemeToggle({ theme, onThemeChange }: ThemeToggleProps) 
         transition={{ duration: 0.3 }}
       >
         {isDark ? (
-          <Sun className="w-4 h-3 md:w-5 md:h-5" />
+          <Sun className="w-4 h-3 md:w-5 md:h-5 rounded-full" />
         ) : (
-          <Moon className="w-4 h-3 md:w-5 md:h-5" />
+          <Moon className="w-4 h-3 md:w-5 md:h-5 rounded-full" />
         )}
       </motion.div>
     </button>
