@@ -98,11 +98,13 @@ export default function MusicSidebar({theme = 'dark',
         }
        } else{
         console.warn('No user is signed in');
+        setloading(false);
        }
        getuserName();
      });
     return () =>  getuserName();
      }, []);
+
   return (
     <div className="min-h-screen ">
       {/* Fixed Sidebar */}
