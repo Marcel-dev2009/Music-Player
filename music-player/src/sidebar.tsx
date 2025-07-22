@@ -39,6 +39,7 @@ export default function MusicSidebar({theme = 'dark',
  const navigate = useNavigate();
  const [userName , setUserName] = useState<string | null>(null);
  const [loading , setloading] = useState(true);
+ const [photo , setphoto] = useState('');
   // Individual menu item handlers
   const handleHomeClick = () => {
     navigate('/Main')
@@ -86,10 +87,12 @@ export default function MusicSidebar({theme = 'dark',
           const nameData = await getDoc(userRef);
           if(nameData.exists()){
           const name = nameData.data().name;
+          const photo = nameData.data().profilePic;
           setUserName(name);
+          setphoto(photo);
           return name;
           }else{
-            console.log('No user data found');
+            console.log(`No user data found && No profile picture found`);
           }
         } catch(error){
          console.error('Error fetching user data:' , error);
@@ -350,8 +353,14 @@ export default function MusicSidebar({theme = 'dark',
         {/* Bottom Section */}
         <div className="absolute bottom-0 left-0 absolute-profile right-0 p-4 border-t border-slate-700">
           <div className={`flex items-center space-x-3 ${isExpanded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-medium text-sm">JD</span>
+            <div className='border border-gray-800/100 rounded-full w-10 h-10'>
+            {
+              loading ? (
+                <div className='bg-black/10 border border-white/10 rounded-full animate-pulse'></div>
+              ) : (
+                <img src={photo} alt="Profile photo"  className='w-10 h-10 rounded-full'/>
+              )
+            }
             </div>
             <div className="flex-1">
                 {

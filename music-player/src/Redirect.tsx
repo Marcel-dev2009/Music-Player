@@ -1,4 +1,4 @@
-/* import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 
@@ -8,6 +8,7 @@ const Redirect = () => {
   useEffect(() => {
      const hasVisited = localStorage.getItem('hasVisited');
      const hasAuth = localStorage.getItem('hasAuth');
+     const hasSigned = localStorage.getItem('hasSigned');
      const hasSetProfile = localStorage.getItem('hasSetProfile');
 
      if(hasVisited){
@@ -22,9 +23,14 @@ const Redirect = () => {
     } 
     else {
       localStorage.setItem('hasAuth' , 'true');
-      navigate('/sign');
+      navigate('/auth');
     } 
-
+      if(hasSigned){
+        navigate('/profile-setup');
+      } else{
+        localStorage.setItem('hasSigned', 'true');
+        navigate('/sign');
+      }
     if(hasSetProfile){
       navigate('/Main');
     }
@@ -39,4 +45,4 @@ const Redirect = () => {
 
 
 
-export default Redirect; */
+export default Redirect;
