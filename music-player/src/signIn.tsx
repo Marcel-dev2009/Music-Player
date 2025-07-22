@@ -11,14 +11,17 @@ const SignIn = () => {
  const handleSignIn = async (e:React.FormEvent) => {
   e.preventDefault();
   setError('');
+    console.log('🔄 Attempting sign in with:', email); // Add this
   try{
-    await signInWithEmailAndPassword(
+   const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
+     console.log('✅ Sign in successful:', userCredential.user.uid)
     navigate('/profile-setup')
   } catch (err: unknown) {
+     console.error('❌ Sign in failed:', err)
     if (err instanceof Error) {
       setError(err.message);
     } else {

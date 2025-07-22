@@ -2,9 +2,10 @@ import { useState} from 'react';
 import { useEffect } from 'react';
 import logo from '/Static-assets/logo.png'
 import { useNavigate } from 'react-router-dom';
-import {getDoc , doc} from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './firebase'; // Adjust the import path as necessary
 import { motion } from 'framer-motion';
-import { db } from './firebase';
+ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import { 
   Home, 
@@ -19,7 +20,8 @@ import {
   X,
   Ellipsis
 } from 'lucide-react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
+/* import { getAuth, onAuthStateChanged } from 'firebase/auth'; */
 
  interface SideSearchProps{
    activeTab?: string;
@@ -75,43 +77,32 @@ export default function MusicSidebar({theme = 'dark',
   const handleSettingsClick = () => {
     navigate('/settings');
   };
- /* const this = onauthstateChanges()=>{
- } */
-  useEffect(() => {
-      const auth = getAuth();
-      
-    const getuserName = onAuthStateChanged(auth , async user => {
-    if(user){
-      const userRef = doc(db, 'users' , user.uid);
-      try{
-         const userDoc = await getDoc(userRef);
-      if(userDoc.exists()){
-        const name:string = userDoc.data().name;
-       setUserName(name);
-       setloading(false);
-        return name;
-      } else{
-        console.log('No such user')
-        /* return null; */
-      }
-      } catch(error){
-        console.error('Error fetching user data:', error);
-      } 
-    /*   finally{
-        setloading(false);
-      } */
-    } else{
-      console.warn('No user is signed in');
-      setloading(false);
-    }
-   
-  });
-    return () => getuserName();
-
-  }, []);
-
-
-  
+     useEffect(() => {
+    const auth = getAuth();
+     const getuserName = onAuthStateChanged(auth , async (user) => {
+       if(user){
+        const userRef = doc(db, 'users' , user.uid);
+        try{
+          const nameData = await getDoc(userRef);
+          if(nameData.exists()){
+          const name = nameData.data().name;
+          setUserName(name);
+          return name;
+          }else{
+            console.log('No user data found');
+          }
+        } catch(error){
+         console.error('Error fetching user data:' , error);
+        } finally{
+          setloading(false);
+        }
+       } else{
+        console.warn('No user is signed in');
+       }
+       getuserName();
+     });
+    return () =>  getuserName();
+     }, []);
   return (
     <div className="min-h-screen ">
       {/* Fixed Sidebar */}
@@ -371,7 +362,7 @@ export default function MusicSidebar({theme = 'dark',
                                  transition={{ duration: 0.5, delay: 0.2 }}
                                  className={`${isDark ? 'text-white' : 'text-black'} font-semibold `}
                                   >
-                                  {userName ? `Welcome, ${userName}` : 'Welcome to Muse Player'}
+                                  {userName ?  `Welcome, ${userName}`: 'Welcome to Muse Player'}
                                  </motion.p>
                   )
                 }
