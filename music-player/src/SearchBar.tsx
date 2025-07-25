@@ -6,11 +6,13 @@ interface SearchBarProps {
   theme?: string;
   triggerSearch?: boolean; // Add this prop
   onSearchTriggered?: () => void; // Add this callback
+  onSearch :  (query : string) => Promise<void>;
 }
 
 function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: SearchBarProps) {
   const [showInput, setShowInput] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [token , setAccessToken] = useState<string|null>(null) ;
+  const [query ,  setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Handle external trigger from BottomBar
@@ -23,6 +25,43 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
       }
     }
   }, [triggerSearch, onSearchTriggered]);
+  const clientId = '1d5f097727cf4a52a39e239b984bb8d6';
+  const client_secret = '2e9e16d23aa8464a957bfc7095760930';
+ async function extractToken () {
+    const res = await fetch(`https://accounts.spotify.com/api/token` , {
+       method : 'POST',
+       body : new URLSearchParams ({
+        'grant_type' : 'client_credentials',
+       }),
+       headers:{
+        'Content-Type' : 'application/x-www-form-urlencoded',
+        'Authorization' : 'Basic ' + btoa(clientId + ':' + client_secret)
+       }
+    });
+   const data = await res.json();
+   const accessToken = data.access_token;
+   setAccessToken(accessToken);
+   console.log(accessToken);
+   return data;
+ }
+ useEffect(() =>{
+  extractToken()
+ }, []);
+
+  const handleSearch = async (query: string) => {
+    try {
+      const res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=artist` , {
+        headers :{
+          'Authorization' : `Bearer ${token}`
+        },
+      });
+      const data = await res.json();
+      console.log(data.artists?.items[0].name);
+    } catch (error) {
+      console.log('Error Fetching Tracks', error);
+    }
+    
+  };
 
   /* Autofocus input when appears */
   useEffect(() => {
@@ -42,21 +81,21 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
       }
       
       // Handle Escape and Enter to close search bar (only when search is open)
-      if (showInput && (e.key === 'Escape' || e.key === 'Enter')) {
+      if (showInput && (e.key === 'Escape')) {
         setShowInput(false);
-        setSearchValue('');
+        setQuery('');
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showInput]);
-
+  
   const isDark = theme === 'dark';
   localStorage.setItem('saveTheme', theme)
  return (
   <>
-   <div className='flex items-center'>
+   <div className=' sticky z-1000 flex items-center'>
      <AnimatePresence mode='wait'>
         {!showInput ? (
           <motion.button
@@ -75,7 +114,7 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
             active:scale-95 focus:outline-none
           `}
           >
-       <Search className="w-4 h-3 md:w-5 md:h-5  "/>
+       <Search className="w-4 h-3 md:w-5 md:h-5 "/>
           </motion.button>
         ) :(
           <motion.div
@@ -83,18 +122,23 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
           initial={{ opacity: 0, width: 0 }}
           animate={{ opacity: 1, width: 'auto' }}
           exit={{ opacity: 0, width: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="flex items-center"
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="flex items-center sticky z-10"
           >
            <div className='relative'>
                 <motion.input
+                onKeyDown={async (e) => {
+                  if (e.key === 'Enter') {
+                    await handleSearch(query);
+                  }
+                }}
               ref={inputRef}
               type="text"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
               placeholder="Search Songs , Artists , Playlists"
               initial={{ width: 0 }}
-              animate={{ width: '500px'}}
+              animate={{ width: '500px' }}
               transition={{ duration: 0.4, ease: "easeOut" }}
               className={`
                 pl-10 pr-10 py-2 rounded-full border-2 outline-none
@@ -106,15 +150,18 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
                 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] 
               `}
             />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            
+             <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400'/>
+
+            {/*   Cancellation Button */}
             <button
              type="button"
               onClick={() => {
                 setShowInput(false);
-                setSearchValue('');
+                setQuery('');
               }}
               className={`
-                absolute right-2 top-1/2 transform -translate-y-1/2 
+                absolute right-2 top-1/2 transform -translate-y-1/2
                 p-1 rounded-full transition-all duration-200
                 ${isDark 
                   ? 'text-gray-400 hover:text-white hover:bg-gray-700' 
@@ -123,13 +170,11 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
                 hover:scale-110 active:scale-95
               `}
             >
-                 <X className="w-4 h-4" />
+                 <X className=" w-4 h-4" />
             </button>
            </div> {/* middle div end */}
           </motion.div>
-     
            )}
-        
      </AnimatePresence>
    </div> {/* 1st div end */}
   </>

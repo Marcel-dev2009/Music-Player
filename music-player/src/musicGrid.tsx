@@ -1,11 +1,12 @@
 import React from 'react';
-import MusicCard from './MusicCard';
+
 import { getAuth } from "firebase/auth";
 import { db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect} from 'react';
 import { motion } from 'framer-motion';
+
 export interface MusicItem {
   id: string;
   title: string;
@@ -16,28 +17,33 @@ export interface MusicItem {
   isLiked?: boolean; 
   
 }
-
+type Images ={
+  url:string
+}
+ type Playlist = {
+  playlist:string;
+  id:string;
+  name:string;
+  images : Images[]
+ }
 interface MusicGridProps {
   items: MusicItem[];
   isExpanded?: boolean;
-  onPlay?: (id: string) => void;
-  onLike?: (id: string) => void;
-  onShare?: (id: string) => void;
   theme : string;
+  playlists?:Playlist[];
+  onPlay: (id: string) => void;
+  onLike: (id: string) => void;
+  onShare: (id: string) => void;
 }
 
 
 const MusicGrid: React.FC<MusicGridProps> = ({
-  items,
-  isExpanded = true,
-  onPlay,
-  onLike,
-  onShare,
-  theme = 'dark'
+ /*  isExpanded = true, */
+  theme = 'dark',
 }) => {
   // Calculate grid columns based on sidebar state
   const isDark = theme === 'dark';
-  const getGridCols = () => {    
+/*   const getGridCols = () => {    
     if (isExpanded) {
       // Sidebar width: 64 (16rem), more space for cards
       return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6';
@@ -45,7 +51,7 @@ const MusicGrid: React.FC<MusicGridProps> = ({
       // Sidebar width: 16 (4rem), less space for cards
       return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7';
     }
-  };
+  }; */
  const [userName , setUserName] = useState<string|null>(null);
  const [loading , setloading] = useState(true);
 useEffect(() => { 
@@ -81,7 +87,7 @@ useEffect(() => {
     <div className={`min-h-screen text-white ${isDark ? 'bg-black' : 'bg-white'} 
     `}>
       {/* Header Section */}
-      <div className={` p-6  ${isDark ? 'border border-white/10 rounded-xl bg-linear-65 from-black to-blue-900': 'border rounded-xl border-black bg-linear-65 from-white to-blue-300 '}`}>
+      <div className={` p-6  ${isDark ? 'border border-white/10 rounded-xl bg-linear-65 from-black via-blue-800 to-blue-900': 'border rounded-xl border-black bg-linear-65 from-white to-blue-300 '}`}>
         <h1 className={`text-3xl font-bold  mb-2 ${isDark ? 'text-white' : 'text-black'}`}> 
             {loading ? (
                <div>
@@ -104,56 +110,7 @@ useEffect(() => {
 
       {/* Main Content */}
       <div className="p-6 space-y-8">
-        {/* Recently Played Section */}
-        <section>
-          <h2 className={`text-xl font-semibold  mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Recently Played</h2>
-          <div className={`grid ${getGridCols()} gap-4`}>
-            {items.slice(0, 6).map((item) => (
-              <MusicCard
-                key={item.id}
-                {...item}
-                onPlay={onPlay}
-                onLike={onLike}
-                onShare={onShare}
-                theme={theme}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Made for You Section */}
-        <section>
-          <h2 className={`text-xl font-semibold  mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Made for You</h2>
-          <div className={`grid ${getGridCols()} gap-4`}> 
-            {items.slice(6, 12).map((item) => (
-              <MusicCard
-                key={item.id}
-                {...item}
-                onPlay={onPlay}
-                onLike={onLike}
-                onShare={onShare}
-                theme={theme}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Popular Playlists Section */}
-        <section>
-          <h2 className="text-xl font-semibold text-white mb-4">Popular Playlists</h2>
-          <div className={`grid ${getGridCols()}  gap-4`}>
-            {items.slice(12).map((item) => (
-              <MusicCard
-                key={item.id}
-                {...item}
-                onPlay={onPlay}
-                onLike={onLike}
-                onShare={onShare}
-                theme={theme}
-              />
-            ))}
-          </div>
-        </section>
+        
       </div>
     </div>
   );

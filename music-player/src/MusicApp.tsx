@@ -10,13 +10,17 @@ import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebase";
+import Tracks from "./track";
 export default function MusicApp() {
 const [theme ,  setTheme] = useState('dark');
 const [triggerSearch , setTriggerSearch] = useState(false);
 const [activeTab , setActiveTab] = useState('home');
 const [photo ,  setphoto] = useState('');
 const [loading , setloading] = useState(true);
-/* const [sidebarExpanded , setIsExpanded] = useState(true); */
+ const [accessToken , setAccessToken] = useState<string | null>(null);
+/*   const [ selectedPlaylistId  , setSelectedPlaylistId] = useState<string | null>(null); */
+  const [tracks , setTracks] = useState([]);
+
 const MusicItems: MusicItem[] = [
    {
       id : '1',
@@ -255,8 +259,6 @@ const MusicItems: MusicItem[] = [
   };
     const handleShare = (id: string) => {
     console.log('Sharing music with ID:', id);
-    // Add your share logic here
-    // Example: shareTrack(id) or openShareModal(id)
   }; 
 const handleTriggerSearch =  () => {
    setTriggerSearch(true);
@@ -300,21 +302,50 @@ const handleSearchTrigggerd = () => {
       });
      return () =>  getuserData();
       }, []);
-  return(
+
+     const extractToken = () =>{
+      const hash = window.location.hash;
+         const params = new URLSearchParams(hash.substring(1));
+         const token = params.get("access_token");
+         if(token){
+            setAccessToken(token);
+            localStorage.setItem('spotify_acess_token', token);
+            window.history.replaceState(null,'',window.location.pathname)
+         }
+     };
+ const searchSpotify = async (query:string) => {
+         const res = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
+            headers:{
+               Authorization: `Bearer ${accessToken}`
+            }
+         });
+         const data = await res.json();
+         setTracks(data.tracks.items); // Track results 
+         console.log('Searching..')
+       }
+
+     useEffect(() => {
+        const getToken = async () => {
+         extractToken();
+        }
+        getToken();
+     }, []);
+ 
+  return (
    <>
 <div className={` overflow-hidden flex min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-100'}`}>
    <aside className="overflow-y-auto">
       {/* {sidebarExpanded ? 'w-64' : 'w-16'} */}
            <Sidebar theme={theme} activeTab={activeTab}
            onSearchTrigger={handleTriggerSearch} 
-             
            />     
            <BottomBar theme={theme} activeTab={activeTab} onTabChange={setActiveTab} onSearchTrigger={handleTriggerSearch}/>
     </aside> 
      <main className="flex-1 overflow-y-auto md:ml-12 transition-all duration-300">
         <div className="max-w-4xl mx-auto p-4 md:p-8 overflow-x-hidden"> 
           <div className="flex gap-50 lg:justify-between">
-         <SearchBar theme={theme} triggerSearch={triggerSearch} onSearchTriggered={handleSearchTrigggerd}/> 
+         <SearchBar theme={theme} triggerSearch={triggerSearch} onSearchTriggered={handleSearchTrigggerd} onSearch={searchSpotify}
+         /> 
          <div className="flex gap-1 md:gap-0">
               <Themetoggle theme={theme} onThemeChange={(newTheme) => setTheme(newTheme)}></Themetoggle> 
         <div className="md:ml-16"> {/* User Profile */}
@@ -327,26 +358,32 @@ const handleSearchTrigggerd = () => {
          }
        </div> {/* User Profile end */}
          </div>
-    
-   
        </div>
-    
         </div> {/* Navbar end */}
        
-       <div className="flex-1">
-     <MusicGrid items={musicItems} /* isExpanded={true}  */onPlay={handlePlay}
+    <div className="flex-1">
+     <MusicGrid items={musicItems} onPlay={handlePlay}
        onLike={handleLike}
        onShare={handleShare}
        theme={theme}
         />
-       </div> {/* Display div end */}
+       </div>          {/* Display div end */}
+
+      <div>
+         <Tracks getTracks={tracks}/>
+      </div>
+
      </main>
       </div> {/*  End Container End */}
-      <div className="flex-1">
+       <div className="flex-1">
          <Outlet/>
-      </div>
+      </div> 
    </>
   );
 }
-
 {/* Main layout end */}
+
+
+
+
+

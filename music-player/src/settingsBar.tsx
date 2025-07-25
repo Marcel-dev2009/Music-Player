@@ -25,7 +25,7 @@ const SettingsBar: React.FC<BottomBarProps> = ({
     if (onTabChange) {
       onTabChange('home');
     }
-  
+    navigate('/Main')
   };
 
   const handleSearchClick = () => {
