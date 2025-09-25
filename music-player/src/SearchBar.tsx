@@ -6,12 +6,12 @@ interface SearchBarProps {
   theme?: string;
   triggerSearch?: boolean; // Add this prop
   onSearchTriggered?: () => void; // Add this callback
-  onSearch :  (query : string) => Promise<void>;
+  onKeyDown : (e : React.KeyboardEvent<HTMLInputElement>) => Promise<void>;
 }
 
-function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: SearchBarProps) {
+function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered , onKeyDown}: SearchBarProps) {
   const [showInput, setShowInput] = useState(false);
-  const [token , setAccessToken] = useState<string|null>(null) ;
+
   const [query ,  setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -25,43 +25,9 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
       }
     }
   }, [triggerSearch, onSearchTriggered]);
-  const clientId = '1d5f097727cf4a52a39e239b984bb8d6';
-  const client_secret = '2e9e16d23aa8464a957bfc7095760930';
- async function extractToken () {
-    const res = await fetch(`https://accounts.spotify.com/api/token` , {
-       method : 'POST',
-       body : new URLSearchParams ({
-        'grant_type' : 'client_credentials',
-       }),
-       headers:{
-        'Content-Type' : 'application/x-www-form-urlencoded',
-        'Authorization' : 'Basic ' + btoa(clientId + ':' + client_secret)
-       }
-    });
-   const data = await res.json();
-   const accessToken = data.access_token;
-   setAccessToken(accessToken);
-   console.log(accessToken);
-   return data;
- }
- useEffect(() =>{
-  extractToken()
- }, []);
+ 
 
-  const handleSearch = async (query: string) => {
-    try {
-      const res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=artist` , {
-        headers :{
-          'Authorization' : `Bearer ${token}`
-        },
-      });
-      const data = await res.json();
-      console.log(data.artists?.items[0].name);
-    } catch (error) {
-      console.log('Error Fetching Tracks', error);
-    }
-    
-  };
+
 
   /* Autofocus input when appears */
   useEffect(() => {
@@ -127,11 +93,7 @@ function SearchBar({theme = 'dark', triggerSearch = false, onSearchTriggered}: S
           >
            <div className='relative'>
                 <motion.input
-                onKeyDown={async (e) => {
-                  if (e.key === 'Enter') {
-                    await handleSearch(query);
-                  }
-                }}
+              onKeyDown={onKeyDown}
               ref={inputRef}
               type="text"
               value={query}
